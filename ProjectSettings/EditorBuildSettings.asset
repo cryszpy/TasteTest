@@ -9,5 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Chris.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.input.settings: {fileID: 11400000, guid: 634f9723439ce4402b3121c759f02755, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: dc6e1473425aa4c9cbdbb9ee74018af5, type: 3}
   m_UseUCBPForAssetBundles: 0

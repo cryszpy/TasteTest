@@ -26,7 +26,7 @@ public class PlayerItemPickup : NetworkBehaviour
         if (collider.CompareTag("Pickup")) {
 
             selectedPickup = collider.gameObject;
-            Debug.Log(player.OwnerId + " in radius!" + player.IsClientInitialized);
+            Debug.Log(player.OwnerId + " in radius!");
         }
     }
 
@@ -47,7 +47,6 @@ public class PlayerItemPickup : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.E) && selectedPickup && !pickupInHand) {
 
             if (selectedPickup.TryGetComponent<IngredientPickup>(out var ingredient)) {
-                Debug.Log(ingredient.isHeld);
 
                 if (!ingredient.isHeld) {
 
@@ -77,15 +76,12 @@ public class PlayerItemPickup : NetworkBehaviour
         if (itemObj.TryGetComponent<IngredientPickup>(out var ingredient)) {
             ingredient.isHeld = true;
         }
-
-        // Changes position of the pickup
-        itemObj.transform.position = anchor.transform.position;
-
-        // Parents the pickup to the player
-        itemObj.transform.parent = player.transform;
-
+        
         // Disables gravity while being held
         if (itemObj.TryGetComponent<Rigidbody>(out var rb)) {
+            rb.Sleep();
+            rb.linearVelocity = Vector3.zero;
+            rb.useGravity = false;
             rb.isKinematic = true;
         }
 
@@ -93,6 +89,12 @@ public class PlayerItemPickup : NetworkBehaviour
         if (player.TryGetComponent<SphereCollider>(out var coll)) {
             coll.enabled = false;
         }
+
+        // Changes position of the pickup
+        itemObj.transform.position = anchor.transform.position;
+
+        // Parents the pickup to the player
+        itemObj.transform.parent = player.transform;
 
         // Sets pickup as currently held object
         script.pickupInHand = itemObj;
@@ -113,6 +115,7 @@ public class PlayerItemPickup : NetworkBehaviour
 
         // Re-enables gravity for the dropped item
         if (obj.TryGetComponent<Rigidbody>(out var rb)) {
+            rb.useGravity = true;
             rb.isKinematic = false;
         }
 
