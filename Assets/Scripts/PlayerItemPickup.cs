@@ -46,9 +46,9 @@ public class PlayerItemPickup : NetworkBehaviour
         // If the player presses E and is holding an item—
         if (Input.GetKeyDown(KeyCode.E) && selectedPickup && !pickupInHand) {
 
-            if (selectedPickup.TryGetComponent<IngredientPickup>(out var ingredient)) {
+            if (selectedPickup.TryGetComponent<FoodPickup>(out var ingredient)) {
 
-                if (!ingredient.isHeld) {
+                if (!ingredient.heldBy) {
 
                     // Pickup said item
                     ServerPickupItem(selectedPickup, itemPoint, this, gameObject);
@@ -73,8 +73,8 @@ public class PlayerItemPickup : NetworkBehaviour
     [ObserversRpc]
     public void PickupItem(GameObject itemObj, GameObject anchor, PlayerItemPickup script, GameObject player) {
 
-        if (itemObj.TryGetComponent<IngredientPickup>(out var ingredient)) {
-            ingredient.isHeld = true;
+        if (itemObj.TryGetComponent<FoodPickup>(out var ingredient)) {
+            ingredient.heldBy = script;
         }
         
         // Disables gravity while being held
@@ -127,8 +127,8 @@ public class PlayerItemPickup : NetworkBehaviour
             coll.enabled = true;
         }
 
-        if (obj.TryGetComponent<IngredientPickup>(out var ingredient)) {
-            ingredient.isHeld = false;
+        if (obj.TryGetComponent<FoodPickup>(out var ingredient)) {
+            ingredient.heldBy = null;
         }
     }
 }

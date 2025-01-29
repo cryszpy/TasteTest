@@ -10,6 +10,9 @@ using UnityEngine.XR;
 public class GameStateManager : NetworkBehaviour
 {
 
+    // Reference to the active instance of this object
+    public static GameStateManager instance;
+
     // Holds the game's current state.
     public static GameState currentState;
 
@@ -29,11 +32,8 @@ public class GameStateManager : NetworkBehaviour
         currentState = state;
 
         switch (state) {
-            // Null
-            case GameState.NONE:
-                break;
             // Switches game state to Loading.
-            case GameState.LOADING:
+            case GameState.MENU:
                 StartLoading();
                 break;
             // Switches game state to Playing.
@@ -41,11 +41,11 @@ public class GameStateManager : NetworkBehaviour
                 StartPlaying();
                 break;
             // Switches game state to End.
-            case GameState.END:
+            case GameState.GAMEOVER:
                 StartEnd();
                 break;
             // Switches game state to Restart.
-            case GameState.RESTART:
+            case GameState.MAINMENU:
                 StartRestart();
                 break;
             // Default to catch any mistakes.
@@ -58,6 +58,8 @@ public class GameStateManager : NetworkBehaviour
     private void Start() {
         if (!base.IsServerInitialized)
             return;
+        
+        instance = this;
     }
     
     // Executes code upon switching to Loading state.
@@ -93,7 +95,7 @@ public class GameStateManager : NetworkBehaviour
     // Executes code upon switching to Restart state.
     void StartRestart() {
         Debug.Log("Restarting...");
-        ChangeState(GameState.LOADING);
+        ChangeState(GameState.MENU);
     }
 
     // Called when the player clicks the "JOIN" button.
@@ -110,10 +112,6 @@ public class GameStateManager : NetworkBehaviour
 }
 
 // Enum list of all game states.
-    public enum GameState {
-        NONE = 0,
-        LOADING = 1,
-        PLAYING = 2,
-        END = 3,
-        RESTART = 4
-    }
+public enum GameState {
+    PLAYING, MENU, MAINMENU, GAMEOVER
+}

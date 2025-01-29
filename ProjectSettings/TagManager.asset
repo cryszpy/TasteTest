@@ -8,6 +8,7 @@ TagManager:
   - HeldPickup
   - CineCam
   - CamLookAt
+  - CombinationManager
   layers:
   - Default
   - TransparentFX

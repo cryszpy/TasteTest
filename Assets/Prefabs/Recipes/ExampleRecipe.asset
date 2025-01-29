@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9dd5728c8a914898824e1e95e748bcf, type: 3}
+  m_Name: ExampleRecipe
+  m_EditorClassIdentifier: 
+  foodId: 1
+  flavorProfile:
+    sweetValue: 0
+    spicyValue: 0
+    savoryValue: 0
+    saltyValue: 0
+    sourValue: 0
+  description: 
+  price: 0
+  ingredients:
+    ingredientOne: {fileID: 3940168280724478917, guid: 4f4c9ac02ac614ad1a673641a31f7835, type: 3}
+    ingredientTwo: {fileID: 3940168280724478917, guid: 4f4c9ac02ac614ad1a673641a31f7835, type: 3}
+    pickup1: {fileID: 7967428870908867391, guid: 4f4c9ac02ac614ad1a673641a31f7835, type: 3}
+    pickup2: {fileID: 7967428870908867391, guid: 4f4c9ac02ac614ad1a673641a31f7835, type: 3}

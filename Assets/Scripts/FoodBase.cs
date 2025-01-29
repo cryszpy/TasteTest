@@ -20,14 +20,16 @@ public struct FlavorProfile {
 }
 
 [System.Serializable]
-[CreateAssetMenu(menuName = "ScriptableObjects/IngredientBase")]
-public class IngredientBase : ScriptableObject
+[CreateAssetMenu(menuName = "ScriptableObjects/FoodBase")]
+public class FoodBase : ScriptableObject
 {
-    public int ingredientId;
+    public int foodId;
 
     public FlavorProfile flavorProfile;
     
     public string description;
 
     public float price;
+
+    public FoodCombo ingredients;
 }
