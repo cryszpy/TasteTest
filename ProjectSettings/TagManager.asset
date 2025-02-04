@@ -9,6 +9,7 @@ TagManager:
   - CineCam
   - CamLookAt
   - CombinationManager
+  - GameStateManager
   layers:
   - Default
   - TransparentFX

@@ -9,48 +9,63 @@ public class CameraLookAt : NetworkBehaviour
     public float viewRangeBase;
 
     public GameObject kitchenCenter;
-    
-    public List<GameObject> players;
 
-    private void Update() {
-        if (players.Count > 0) {
-            ServerUpdateTransform(gameObject);
-        }
+    private GameStateManager manager;
+
+    private void Start() {
+        manager = GameObject.FindGameObjectWithTag("GameStateManager").GetComponent<GameStateManager>();
     }
-
-    [ObserversRpc]
-    public void AddPlayer(CameraLookAt cameraLookAt, GameObject playerToAdd) {
-        if (!cameraLookAt.players.Contains(playerToAdd)) {
-            cameraLookAt.players.Add(playerToAdd);
-            Debug.Log("Added player: " + playerToAdd.GetComponent<PlayerController>().OwnerId);
+    
+    private void Update() {
+        if (manager.players.Count > 0) {
+            ServerUpdateTransform(gameObject, manager);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerUpdateTransform(GameObject lookAtObj) {
+    public void ServerUpdateTransform(GameObject lookAtObj, GameStateManager manager) {
 
-        UpdateTransform(lookAtObj);
+        UpdateTransform(lookAtObj, manager);
     }
 
     [ObserversRpc]
-    private void UpdateTransform(GameObject lookAtObj) {
+    private void UpdateTransform(GameObject lookAtObj, GameStateManager manager) {
 
         if (lookAtObj.TryGetComponent<CameraLookAt>(out var lookAt)) {
             
-            if (lookAt.players.Count > 0) {
+            if (manager.players.Count > 0) {
+
+                // Reference list of null (disconnected) players
+                List<GameObject> nullPlayers = new();
 
                 float viewRange = Mathf.Clamp(lookAt.viewRangeBase, 1, 80);
 
                 Vector3 playerSum = Vector3.zero;
 
-                foreach (var player in lookAt.players) {
-                    playerSum += player.transform.position;
+                foreach (var player in manager.players) {
+
+                    // If the player is still active, add this to the sum
+                    if (player != null) {
+                        playerSum += player.transform.position;
+                    } 
+                    // If player has disconnected, add it to the reference list
+                    else {
+                        nullPlayers.Add(player);
+                    }
                 }
 
-                Vector3 playerTarget = playerSum / lookAt.players.Count;
+                Vector3 playerTarget = playerSum / manager.players.Count;
 
                 var cameraTargetPosition = (lookAt.kitchenCenter.transform.position + (viewRange - 1) * playerTarget) / viewRange;
                 lookAtObj.transform.position = cameraTargetPosition;
+
+                // For each disconnected player, remove the player from the active players list
+                foreach (var nullPlayer in nullPlayers) {
+                    manager.players.Remove(nullPlayer);
+                }
+
+                // Reset null players list
+                nullPlayers.Clear();
 
             } else {
                 lookAtObj.transform.position = lookAt.kitchenCenter.transform.position;

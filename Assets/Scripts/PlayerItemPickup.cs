@@ -26,6 +26,11 @@ public class PlayerItemPickup : NetworkBehaviour
         if (collider.CompareTag("Pickup")) {
 
             selectedPickup = collider.gameObject;
+
+            if (collider.TryGetComponent<FoodPickup>(out var script)) {
+                script.spriteRenderer.sprite = script.selectedSprite;
+            }
+
             Debug.Log(player.OwnerId + " in radius!");
         }
     }
@@ -37,29 +42,37 @@ public class PlayerItemPickup : NetworkBehaviour
             if (selectedPickup == collider.gameObject) {
                 selectedPickup = null;
             }
+
+            if (collider.TryGetComponent<FoodPickup>(out var script)) {
+                script.spriteRenderer.sprite = script.normalSprite;
+            }
+
             Debug.Log(player.OwnerId + " exited radius!");
         }
     }
 
     private void Update() {
 
-        // If the player presses E and is holding an item—
-        if (Input.GetKeyDown(KeyCode.E) && selectedPickup && !pickupInHand) {
+        if (GameStateManager.currentState == GameState.PLAYING) {
 
-            if (selectedPickup.TryGetComponent<FoodPickup>(out var ingredient)) {
+            // If the player presses E and is holding an item—
+            if (Input.GetKeyDown(KeyCode.E) && selectedPickup && !pickupInHand) {
 
-                if (!ingredient.heldBy) {
+                if (selectedPickup.TryGetComponent<FoodPickup>(out var ingredient)) {
 
-                    // Pickup said item
-                    ServerPickupItem(selectedPickup, itemPoint, this, gameObject);
+                    if (!ingredient.heldBy) {
+
+                        // Pickup said item
+                        ServerPickupItem(selectedPickup, itemPoint, this, gameObject);
+                    }
                 }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Q) && pickupInHand) {
+            if (Input.GetKeyDown(KeyCode.Q) && pickupInHand) {
 
-            // Drop held item
-            ServerDropItem(pickupInHand);
+                // Drop held item
+                ServerDropItem(pickupInHand);
+            }
         }
     }
 

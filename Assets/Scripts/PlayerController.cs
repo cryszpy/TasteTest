@@ -5,6 +5,7 @@ using FishNet.Connection;
 using FishNet.Object;
 using Unity.Cinemachine;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 //This is made by Bobsi Unity - Youtube
 public class PlayerController : NetworkBehaviour
@@ -13,7 +14,7 @@ public class PlayerController : NetworkBehaviour
     [Header("SCRIPT REFERENCES")]
  
     //[SerializeField] private float cameraYOffset = 0.4f;
-    private CameraLookAt camLookAt;
+    private GameStateManager manager;
 
     public PlayerControls playerControls;
     private InputAction inputMove;
@@ -24,7 +25,7 @@ public class PlayerController : NetworkBehaviour
     [Header("STATS")]
     public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
-    public float lookSpeed = 2.0f;
+    public float lookSpeed = 4.0f;
  
     Vector3 moveDirection = Vector3.zero;
 
@@ -47,11 +48,12 @@ public class PlayerController : NetworkBehaviour
     {
         base.OnStartClient();
         if (base.IsOwner)
-        {
-            camLookAt = GameObject.FindGameObjectWithTag("CamLookAt").GetComponent<CameraLookAt>();
+        {            
+            manager = GameObject.FindGameObjectWithTag("GameStateManager").GetComponent<GameStateManager>();
             //cam.transform.position = new Vector3(transform.position.x, transform.position.y + cameraYOffset, transform.position.z);
             //cam.Follow = transform;
-            ServerAddPlayer(camLookAt, gameObject);
+            ServerAddPlayer(manager, GameObject.FindGameObjectsWithTag("Player").ToList());
+
         }
         else
         {
@@ -60,35 +62,43 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerAddPlayer(CameraLookAt cameraLookAt, GameObject playerToAdd) {
-        cameraLookAt.AddPlayer(cameraLookAt, playerToAdd);
+    public void ServerAddPlayer(GameStateManager manager, List<GameObject> scannedPlayers) {
+        
+        foreach (var player in scannedPlayers) {
+            AddPlayer(manager, player);
+        }
     }
- 
-    void Start()
-    {
-        //characterController = GetComponent<CharacterController>();
- 
-        // Lock cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+
+    [ObserversRpc]
+    public void AddPlayer(GameStateManager manager, GameObject playerToAdd) {
+        if (!manager.players.Contains(playerToAdd)) {
+            manager.players.Add(playerToAdd);
+            Debug.Log("Added player: " + playerToAdd.GetComponent<PlayerController>().OwnerId);
+        }
     }
 
     private void Update() {
-        moveDirection = inputMove.ReadValue<Vector2>();
 
-        // Press Left Shift to run
-        isRunning = Input.GetKey(KeyCode.LeftShift);
+        if (GameStateManager.currentState == GameState.PLAYING) {
+        
+            moveDirection = inputMove.ReadValue<Vector2>();
 
-        float speed = isRunning ? runningSpeed : walkingSpeed;
+            // Press Left Shift to run
+            isRunning = Input.GetKey(KeyCode.LeftShift);
 
-        moveDirection = new Vector3(moveDirection.x * speed, 0, moveDirection.y * speed);
+            float speed = isRunning ? runningSpeed : walkingSpeed;
 
-        RotateInDirection(moveDirection);
+            moveDirection = new Vector3(moveDirection.x * speed, 0, moveDirection.y * speed);
+
+            RotateInDirection(moveDirection);
+        }
     }
  
     private void FixedUpdate()
     {
-        ServerMovePlayer(this);
+        if (GameStateManager.currentState == GameState.PLAYING && base.IsClientInitialized) {
+            ServerMovePlayer(this);
+        }
     }
 
     [ServerRpc]

@@ -9,15 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9dd5728c8a914898824e1e95e748bcf, type: 3}
-  m_Name: Example
+  m_Script: {fileID: 11500000, guid: f98c4056ce3974cbabe618c03fc5f927, type: 3}
+  m_Name: Super
   m_EditorClassIdentifier: 
-  ingredientId: 0
-  flavorProfile:
-    sweetValue: 0
-    spicyValue: 0
-    savoryValue: 0
-    saltyValue: 0
-    sourValue: 0
-  description: 
-  price: 0
+  amountMinimum: 5
+  amountMaximum: 6
+  orderText: Super
+  spriteDecor: {fileID: 0}

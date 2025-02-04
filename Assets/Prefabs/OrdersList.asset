@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eed7b94701f2d43d98267ee9b4be97fd, type: 3}
+  m_Name: OrdersList
+  m_EditorClassIdentifier: 
+  flavors:
+  - {fileID: 11400000, guid: 874e162b65b944c88ad4711fe598e805, type: 2}
+  - {fileID: 11400000, guid: 1d0a37b62cd8d48b18178fd73d9c9f19, type: 2}
+  - {fileID: 11400000, guid: 79557a66ec4614d44a103361cd13d60a, type: 2}
+  - {fileID: 11400000, guid: fc072624c41694eb5bf515a6a10b166c, type: 2}
+  - {fileID: 11400000, guid: f6889007dd43f4f669861798f7e8d2dd, type: 2}
+  flavorAmounts:
+  - {fileID: 11400000, guid: 8734e0e07fc6a46a0b27a0ee70f46d3a, type: 2}
+  - {fileID: 11400000, guid: 26cc98cc43dd9482fb54a00819b04980, type: 2}
+  - {fileID: 11400000, guid: 57d84fb8afa32418e854d0d8c1c09303, type: 2}
+  - {fileID: 11400000, guid: 7dd2abd515b4a4f97b30c3fb37a015e7, type: 2}
+  criticTitles:
+  - Mr.
+  - Mrs.
+  - Ms.
+  - Dr.
+  - Chef
+  criticSurnames:
+  - Duong
+  - Maring
+  - Huang
+  - Destruction
+  - Nguyen
+  - Chin
+  - Ramsay
+  customerNames:
+  - Dylan
+  - Nancy
+  - Lauren
+  - Chris
+  - Katen

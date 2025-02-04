@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9dd5728c8a914898824e1e95e748bcf, type: 3}
   m_Name: ExampleRecipe
   m_EditorClassIdentifier: 
+  type: 2
   foodId: 1
   flavorProfile:
     sweetValue: 0
@@ -22,7 +23,7 @@ MonoBehaviour:
   description: 
   price: 0
   ingredients:
-    ingredientOne: {fileID: 3940168280724478917, guid: 4f4c9ac02ac614ad1a673641a31f7835, type: 3}
-    ingredientTwo: {fileID: 3940168280724478917, guid: 4f4c9ac02ac614ad1a673641a31f7835, type: 3}
-    pickup1: {fileID: 7967428870908867391, guid: 4f4c9ac02ac614ad1a673641a31f7835, type: 3}
-    pickup2: {fileID: 7967428870908867391, guid: 4f4c9ac02ac614ad1a673641a31f7835, type: 3}
+    ingredientOne: {fileID: 3940168280724478917, guid: 9b41a49d4d5084d04ac9c248f3606d73, type: 3}
+    ingredientTwo: {fileID: 3940168280724478917, guid: 9b41a49d4d5084d04ac9c248f3606d73, type: 3}
+    pickup1: {fileID: 7967428870908867391, guid: 9b41a49d4d5084d04ac9c248f3606d73, type: 3}
+    pickup2: {fileID: 7967428870908867391, guid: 9b41a49d4d5084d04ac9c248f3606d73, type: 3}

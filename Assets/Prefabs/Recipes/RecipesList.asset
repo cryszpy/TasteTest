@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: RecipesList
   m_EditorClassIdentifier: 
   recipes:
-  - pickup: {fileID: 3910206498275411205, guid: 12e14ed9fcff549ae88ba84c879c22bd, type: 3}
-    foodObject: {fileID: 4218917150985524167, guid: 12e14ed9fcff549ae88ba84c879c22bd, type: 3}
+  - pickup: {fileID: 3940168280724478917, guid: 30000501be6ee467c9aa61d0903e37f3, type: 3}
+    foodObject: {fileID: 7967428870908867391, guid: 30000501be6ee467c9aa61d0903e37f3, type: 3}

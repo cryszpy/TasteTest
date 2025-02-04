@@ -79,7 +79,7 @@ namespace FishNet.Example
     /// <summary>
     /// EventSystem for the project.
     /// </summary>
-    private EventSystem _eventSystem;
+    public EventSystem _eventSystem;
 #endif
         #endregion
 
@@ -100,7 +100,7 @@ namespace FishNet.Example
                     return "Invalid";
             }
 
-            GUILayout.BeginArea(new Rect(4, 110, 256, 9000));
+            /* GUILayout.BeginArea(new Rect(4, 110, 256, 9000));
             Vector2 defaultResolution = new Vector2(1920f, 1080f);
             GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(Screen.width / defaultResolution.x, Screen.height / defaultResolution.y, 1));
 
@@ -109,6 +109,7 @@ namespace FishNet.Example
 
             Vector2 buttonSize = new Vector2(165f, 42f);
             style.fontSize = 26;
+
             //Server button.
             if (Application.platform != RuntimePlatform.WebGLPlayer)
             {
@@ -123,7 +124,7 @@ namespace FishNet.Example
 
             style.fontSize = originalFontSize;
 
-            GUILayout.EndArea();
+            GUILayout.EndArea(); */
 #endif
         }
 
@@ -135,8 +136,8 @@ namespace FishNet.Example
         if (inputModule == null)
             gameObject.AddComponent<StandaloneInputModule>();
 #else
-            _serverIndicator.transform.gameObject.SetActive(false);
-            _clientIndicator.transform.gameObject.SetActive(false);
+            //_serverIndicator.transform.gameObject.SetActive(false);
+            //_clientIndicator.transform.gameObject.SetActive(false);
 #endif
 
             _networkManager = FindObjectOfType<NetworkManager>();

@@ -194,7 +194,7 @@ MonoBehaviour:
   rb: {fileID: 3366302172567540740}
   walkingSpeed: 7.5
   runningSpeed: 11.5
-  lookSpeed: 1
+  lookSpeed: 2
 --- !u!114 &8552753436402329351
 MonoBehaviour:
   m_ObjectHideFlags: 0

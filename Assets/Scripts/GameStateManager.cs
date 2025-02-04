@@ -5,6 +5,7 @@ using UnityEngine;
 using FishNet.Connection;
 using Unity.VisualScripting;
 using UnityEngine.XR;
+using System.Linq;
 
 // Game state manager class to handle game's state machine.
 public class GameStateManager : NetworkBehaviour
@@ -15,103 +16,70 @@ public class GameStateManager : NetworkBehaviour
 
     // Holds the game's current state.
     public static GameState currentState;
+    public GameState stateTracker;
 
-    [SerializeField]
-    private GameObject joinMenu;
+    public List<GameObject> players;
 
-    public GameObject startGameButton;
+    public Menu menu;
 
-    public GameObject mainMenu;
+    public OrderManager orderManager;
 
-    public GameObject joinCodeDisplay;
+    public delegate void EventHandler();
 
-    public GameObject loadingScreen;
+    public static EventHandler EOnGamestateChange;
 
     // Switch statement to do things based on what state the game is in.
-    public void ChangeState(GameState state) {
-        currentState = state;
+    public static void SetState(GameState newState) {
+        currentState = newState;
 
-        switch (state) {
-            // Switches game state to Loading.
-            case GameState.MENU:
-                StartLoading();
-                break;
-            // Switches game state to Playing.
-            case GameState.PLAYING:
-                StartPlaying();
-                break;
-            // Switches game state to End.
-            case GameState.GAMEOVER:
-                StartEnd();
-                break;
-            // Switches game state to Restart.
-            case GameState.MAINMENU:
-                StartRestart();
-                break;
-            // Default to catch any mistakes.
-            default:
-                break;
-        }
+        EOnGamestateChange?.Invoke();
     }
 
     // Start function
-    private void Start() {
+    private void Awake() {
         if (!base.IsServerInitialized)
             return;
         
         instance = this;
-    }
-    
-    // Executes code upon switching to Loading state.
-    void StartLoading() {
-        Debug.Log("Loading...");
 
-        // Hides the main menu.
-        mainMenu.SetActive(false);
+        if (!orderManager) {
+            orderManager = GetComponent<OrderManager>();
+        }
 
-        // Shows the loading screen.
-        loadingScreen.SetActive(true);
+        SetState(GameState.MAINMENU);
     }
 
-    // Executes code upon switching to Playing state.
-    void StartPlaying() {
-        Debug.Log("Playing...");
-
-        // Shows the loading screen.
-        loadingScreen.SetActive(false);
-
-        // Hides the join menu.
-        joinMenu.SetActive(false);
-
-        // Shows the lobby code UI.
-        joinCodeDisplay.SetActive(true);
+    private void Update() {
+        stateTracker = currentState;
     }
 
-    // Executes code upon switching to End state.
-    void StartEnd() {
-        Debug.Log("Ending...");
+    public void StartButton() {
+        ServerStartButtonPressed(this);
     }
 
-    // Executes code upon switching to Restart state.
-    void StartRestart() {
-        Debug.Log("Restarting...");
-        ChangeState(GameState.MENU);
+    [ServerRpc(RequireOwnership = false)]
+    private void ServerStartButtonPressed(GameStateManager gameStateManager) {
+        StartButtonPressed(gameStateManager);
     }
 
-    // Called when the player clicks the "JOIN" button.
-    public void JoinButton() {
-        // Shows the join menu UI.
-        joinMenu.SetActive(true);
-    }
+    [ObserversRpc]
+    private void StartButtonPressed(GameStateManager gameStateManager) {
+        GameStateManager.SetState(GameState.PLAYING);
+        Debug.Log("PLAYING");
 
-    // Called when the "BACK" button is pressed in the join menu.
-    public void CloseJoinMenu() {
-        // Hides the join menu.
-        joinMenu.SetActive(false);
+        // Hide start button
+        gameStateManager.menu.startButton.SetActive(false);
+
+        // Start the day
+        gameStateManager.orderManager.shopIsOpen = true;
+
+        // Lock cursor
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }
 
 // Enum list of all game states.
 public enum GameState {
-    PLAYING, MENU, MAINMENU, GAMEOVER
+    MAINMENU, PLAYING, LOADING, GAMEOVER
 }
