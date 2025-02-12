@@ -169,7 +169,8 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 1708774730879461347}
   _networkObjectCache: {fileID: 1708774730879461347}
-  pickup: {fileID: 3940168280724478917}
+  foodBase: {fileID: 3940168280724478917}
+  pickup: {fileID: 1253907006483163269}
 --- !u!1 &7967428870908867391
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,6 +182,7 @@ GameObject:
   - component: {fileID: 2351948949850126343}
   - component: {fileID: 670096423049855068}
   - component: {fileID: 1809638354481305040}
+  - component: {fileID: 1253907006483163269}
   - component: {fileID: 3940168280724478917}
   - component: {fileID: 1708774730879461347}
   - component: {fileID: 7264095579911288826}
@@ -256,6 +258,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1253907006483163269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7967428870908867391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5918067ea59a84f898e80f05be14eca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 7541583654398144839}
+  heldBy: {fileID: 0}
+  normalSprite: {fileID: 21300000, guid: 91fb8b62c61c84724871b297c84e623d, type: 3}
+  selectedSprite: {fileID: 21300000, guid: 1d0fa82d3d163454da7390f9275ff194, type: 3}
 --- !u!114 &3940168280724478917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,11 +289,19 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 1708774730879461347}
   _networkObjectCache: {fileID: 1708774730879461347}
-  spriteRenderer: {fileID: 7541583654398144839}
-  baseDefinition: {fileID: 11400000, guid: d0892b20c2fde4e43b1144677cc97c77, type: 2}
-  heldBy: {fileID: 0}
-  normalSprite: {fileID: 21300000, guid: 91fb8b62c61c84724871b297c84e623d, type: 3}
-  selectedSprite: {fileID: 21300000, guid: 1d0fa82d3d163454da7390f9275ff194, type: 3}
+  spawnObject: {fileID: 7967428870908867391}
+  type: 0
+  foodId: 16
+  isRaw: 0
+  flavorProfile:
+    sweetValue: 0
+    spicyValue: 0
+    savoryValue: 1
+    saltyValue: 0
+    sourValue: 0
+  description: 
+  price: 0
+  ingredients: []
 --- !u!114 &1708774730879461347
 MonoBehaviour:
   m_ObjectHideFlags: 0

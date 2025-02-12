@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1beb1f608bb534288a2ac8042a0c1673, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 42ee832f287e7422ca899b985cc1e26f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,77 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e627175e89cd8434ca69fc12e85132ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &3963234203547541396
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3601400073269957482}
-  - component: {fileID: 3098644142704946981}
-  - component: {fileID: 6280577487125600126}
-  m_Layer: 0
-  m_Name: CombineRadius
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3601400073269957482
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3963234203547541396}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2351948949850126343}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &3098644142704946981
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3963234203547541396}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.6
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6280577487125600126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3963234203547541396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fa8d852d230c4d5a9f3b6ae670ff0c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 1
-  _addedNetworkObject: {fileID: 1708774730879461347}
-  _networkObjectCache: {fileID: 1708774730879461347}
-  foodBase: {fileID: 3940168280724478917}
-  pickup: {fileID: 1336250055161656150}
 --- !u!1 &7967428870908867391
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,12 +111,12 @@ GameObject:
   - component: {fileID: 2351948949850126343}
   - component: {fileID: 670096423049855068}
   - component: {fileID: 1809638354481305040}
-  - component: {fileID: 1336250055161656150}
-  - component: {fileID: 3940168280724478917}
   - component: {fileID: 1708774730879461347}
-  - component: {fileID: 5537341973137301089}
+  - component: {fileID: 5709467218166589690}
+  - component: {fileID: 4553269175663272667}
+  - component: {fileID: 2877849263894778376}
   m_Layer: 0
-  m_Name: Lemon
+  m_Name: RecipeFramework
   m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -202,11 +131,10 @@ Transform:
   m_GameObject: {fileID: 7967428870908867391}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3601400073269957482}
   - {fileID: 4597604772094986644}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -258,50 +186,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1336250055161656150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7967428870908867391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5918067ea59a84f898e80f05be14eca0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 7541583654398144839}
-  heldBy: {fileID: 0}
-  normalSprite: {fileID: 21300000, guid: 1beb1f608bb534288a2ac8042a0c1673, type: 3}
-  selectedSprite: {fileID: 21300000, guid: 5e90de0b2e1184e3a9a55c80d3ae44c5, type: 3}
---- !u!114 &3940168280724478917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7967428870908867391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c00312a1651b4b0ebcd4e850b653384, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 1708774730879461347}
-  _networkObjectCache: {fileID: 1708774730879461347}
-  spawnObject: {fileID: 7967428870908867391}
-  type: 0
-  foodId: 9
-  isRaw: 0
-  flavorProfile:
-    sweetValue: 1
-    spicyValue: 0
-    savoryValue: 0
-    saltyValue: 0
-    sourValue: 3
-  description: 
-  price: 0
-  ingredients: []
 --- !u!114 &1708774730879461347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,8 +203,9 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 3940168280724478917}
-  - {fileID: 6280577487125600126}
+  - {fileID: 5709467218166589690}
+  - {fileID: 4553269175663272667}
+  - {fileID: 2877849263894778376}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -346,16 +231,16 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 6
+  <PrefabId>k__BackingField: 27
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 6192376998187302702
+  <AssetPathHash>k__BackingField: 17312376405623090947
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
-    Position: {x: -3.45, y: 0.827, z: 4.67}
+    Position: {x: 0, y: 1, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
---- !u!114 &5537341973137301089
+--- !u!114 &5709467218166589690
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -367,9 +252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 1708774730879461347}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 1708774730879461347}
   _componentConfiguration: 0
   _synchronizeParent: 0
   _packing:
@@ -398,3 +283,39 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &4553269175663272667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7967428870908867391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b728bdce3c4d47a592994fdf9586e30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 1708774730879461347}
+  _networkObjectCache: {fileID: 1708774730879461347}
+  type: 3
+  undiscoveredRecipes: []
+--- !u!114 &2877849263894778376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7967428870908867391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5918067ea59a84f898e80f05be14eca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 2
+  _addedNetworkObject: {fileID: 1708774730879461347}
+  _networkObjectCache: {fileID: 1708774730879461347}
+  spriteRenderer: {fileID: 7541583654398144839}
+  heldBy: {fileID: 0}
+  normalSprite: {fileID: 21300000, guid: 42ee832f287e7422ca899b985cc1e26f, type: 3}
+  selectedSprite: {fileID: 21300000, guid: 42ee832f287e7422ca899b985cc1e26f, type: 3}

@@ -6,5 +6,5 @@ using UnityEngine;
 public class RecipesList : ScriptableObject
 {
     [Tooltip("List of all recipes in the game.")]
-    public List<FoodPair> recipes = new();
+    public List<FoodBase> recipes = new();
 }

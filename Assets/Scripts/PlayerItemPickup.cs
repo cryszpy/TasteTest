@@ -23,11 +23,15 @@ public class PlayerItemPickup : NetworkBehaviour
 
     private void OnTriggerEnter(Collider collider) {
 
+        if (GameStateManager.currentState != GameState.PLAYING) {
+            return;
+        }
+
         if (collider.CompareTag("Pickup")) {
 
             selectedPickup = collider.gameObject;
 
-            if (collider.TryGetComponent<FoodPickup>(out var script)) {
+            if (collider.TryGetComponent<Pickup>(out var script)) {
                 script.spriteRenderer.sprite = script.selectedSprite;
             }
 
@@ -37,13 +41,17 @@ public class PlayerItemPickup : NetworkBehaviour
 
     private void OnTriggerExit(Collider collider) {
 
+        if (GameStateManager.currentState != GameState.PLAYING) {
+            return;
+        }
+
         if (collider.CompareTag("Pickup")) {
 
             if (selectedPickup == collider.gameObject) {
                 selectedPickup = null;
             }
 
-            if (collider.TryGetComponent<FoodPickup>(out var script)) {
+            if (collider.TryGetComponent<Pickup>(out var script)) {
                 script.spriteRenderer.sprite = script.normalSprite;
             }
 
@@ -58,9 +66,9 @@ public class PlayerItemPickup : NetworkBehaviour
             // If the player presses E and is holding an item—
             if (Input.GetKeyDown(KeyCode.E) && selectedPickup && !pickupInHand) {
 
-                if (selectedPickup.TryGetComponent<FoodPickup>(out var ingredient)) {
+                if (selectedPickup.TryGetComponent<Pickup>(out var pickup)) {
 
-                    if (!ingredient.heldBy) {
+                    if (!pickup.heldBy) {
 
                         // Pickup said item
                         ServerPickupItem(selectedPickup, itemPoint, this, gameObject);
@@ -86,7 +94,7 @@ public class PlayerItemPickup : NetworkBehaviour
     [ObserversRpc]
     public void PickupItem(GameObject itemObj, GameObject anchor, PlayerItemPickup script, GameObject player) {
 
-        if (itemObj.TryGetComponent<FoodPickup>(out var ingredient)) {
+        if (itemObj.TryGetComponent<Pickup>(out var ingredient)) {
             ingredient.heldBy = script;
         }
         
@@ -140,7 +148,7 @@ public class PlayerItemPickup : NetworkBehaviour
             coll.enabled = true;
         }
 
-        if (obj.TryGetComponent<FoodPickup>(out var ingredient)) {
+        if (obj.TryGetComponent<Pickup>(out var ingredient)) {
             ingredient.heldBy = null;
         }
     }

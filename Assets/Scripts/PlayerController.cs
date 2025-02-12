@@ -54,6 +54,8 @@ public class PlayerController : NetworkBehaviour
             //cam.Follow = transform;
             ServerAddPlayer(manager, GameObject.FindGameObjectsWithTag("Player").ToList());
 
+            // Changes the game's state to waiting.
+            GameStateManager.SetState(GameState.WAITING);
         }
         else
         {
@@ -79,7 +81,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Update() {
 
-        if (GameStateManager.currentState == GameState.PLAYING) {
+        if (GameStateManager.currentState == GameState.PLAYING || GameStateManager.currentState == GameState.WAITING) {
         
             moveDirection = inputMove.ReadValue<Vector2>();
 
@@ -96,7 +98,7 @@ public class PlayerController : NetworkBehaviour
  
     private void FixedUpdate()
     {
-        if (GameStateManager.currentState == GameState.PLAYING && base.IsClientInitialized) {
+        if ((GameStateManager.currentState == GameState.PLAYING || GameStateManager.currentState == GameState.WAITING) && base.IsClientInitialized) {
             ServerMovePlayer(this);
         }
     }

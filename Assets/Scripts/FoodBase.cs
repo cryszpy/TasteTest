@@ -1,7 +1,10 @@
+using FishNet.Object;
+using FishNet.Connection;
 using UnityEngine;
+using System.Collections.Generic;
 
 public enum FoodType {
-    INGREDIENT, TRANSFORMED, RECIPE
+    INGREDIENT, TRANSFORMED, RECIPE, FRAMEWORK
 }
 
 [System.Serializable]
@@ -23,13 +26,20 @@ public struct FlavorProfile {
     public int sourValue;
 }
 
-[System.Serializable]
-[CreateAssetMenu(menuName = "ScriptableObjects/FoodBase")]
-public class FoodBase : ScriptableObject
+public class FoodBase : NetworkBehaviour
 {
+
+    [Header("SCRIPT REFERENCES")]
+
+    public GameObject spawnObject;
+
+    [Header("STATS")]
+
     public FoodType type;
     
     public int foodId;
+
+    public bool isRaw;
 
     public FlavorProfile flavorProfile;
     
@@ -37,5 +47,5 @@ public class FoodBase : ScriptableObject
 
     public float price;
 
-    public FoodCombo ingredients;
+    public List<FoodCombo> ingredients;
 }

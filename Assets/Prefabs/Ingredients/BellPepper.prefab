@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1beb1f608bb534288a2ac8042a0c1673, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 20be11e9324f8c747bc8f2cdc7865c5c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1708774730879461347}
   _networkObjectCache: {fileID: 1708774730879461347}
   foodBase: {fileID: 3940168280724478917}
-  pickup: {fileID: 1336250055161656150}
+  pickup: {fileID: 1542581527014635198}
 --- !u!1 &7967428870908867391
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,12 +182,12 @@ GameObject:
   - component: {fileID: 2351948949850126343}
   - component: {fileID: 670096423049855068}
   - component: {fileID: 1809638354481305040}
-  - component: {fileID: 1336250055161656150}
+  - component: {fileID: 1542581527014635198}
   - component: {fileID: 3940168280724478917}
   - component: {fileID: 1708774730879461347}
-  - component: {fileID: 5537341973137301089}
+  - component: {fileID: 2548400843337980240}
   m_Layer: 0
-  m_Name: Lemon
+  m_Name: BellPepper
   m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -258,7 +258,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1336250055161656150
+--- !u!114 &1542581527014635198
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,8 +272,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 7541583654398144839}
   heldBy: {fileID: 0}
-  normalSprite: {fileID: 21300000, guid: 1beb1f608bb534288a2ac8042a0c1673, type: 3}
-  selectedSprite: {fileID: 21300000, guid: 5e90de0b2e1184e3a9a55c80d3ae44c5, type: 3}
+  normalSprite: {fileID: 21300000, guid: 20be11e9324f8c747bc8f2cdc7865c5c, type: 3}
+  selectedSprite: {fileID: 21300000, guid: 37a94cc1a8f8a884d987fde6c26d7a43, type: 3}
 --- !u!114 &3940168280724478917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,14 +291,14 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 1708774730879461347}
   spawnObject: {fileID: 7967428870908867391}
   type: 0
-  foodId: 9
+  foodId: 21
   isRaw: 0
   flavorProfile:
     sweetValue: 1
-    spicyValue: 0
+    spicyValue: 3
     savoryValue: 0
     saltyValue: 0
-    sourValue: 3
+    sourValue: 0
   description: 
   price: 0
   ingredients: []
@@ -348,14 +348,14 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 6
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 6192376998187302702
+  <AssetPathHash>k__BackingField: 11489223052116255748
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: -3.45, y: 0.827, z: 4.67}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
---- !u!114 &5537341973137301089
+--- !u!114 &2548400843337980240
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

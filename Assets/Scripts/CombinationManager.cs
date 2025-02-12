@@ -6,43 +6,67 @@ using UnityEngine;
 
 public class CombinationManager : NetworkBehaviour
 {
+
+    public GameObject recipeFramework;
+
     public RecipesList recipesList;
 
     public List<FoodCombo> heldComboList = new();
 
-    [HideInInspector] public bool lockInUse = false;
-
     [ServerRpc(RequireOwnership = false)]
-    public void ServerCombineIngredients(CombinationManager comboManager, FoodPickup ingredientOne, FoodPickup ingredientTwo, GameObject pickup1, GameObject pickup2, GameObject player1, GameObject player2) {
+    public void ServerCombineIngredients(CombinationManager comboManager, FoodBase ingredientOne, FoodBase ingredientTwo, GameObject pickup1, GameObject pickup2, GameObject player1, GameObject player2) {
         Debug.Log("Called server combine ingredients!");
 
         // Gets the midpoint between the two combining ingredients
         Vector3 spawnPoint = pickup1.transform.position + ((pickup1.transform.position - pickup2.transform.position) / 2);
 
         // Finds the correct recipe to spawn
-        FoodPair foundRecipe = comboManager.recipesList.recipes.Find(
-            x => (x.pickup.baseDefinition.ingredients.ingredientOne.baseDefinition == ingredientOne.baseDefinition && x.pickup.baseDefinition.ingredients.ingredientTwo.baseDefinition == ingredientTwo.baseDefinition)
-         || (x.pickup.baseDefinition.ingredients.ingredientOne.baseDefinition == ingredientTwo.baseDefinition && x.pickup.baseDefinition.ingredients.ingredientTwo.baseDefinition == ingredientOne.baseDefinition));
-
+        List<FoodBase> foundRecipes = comboManager.recipesList.recipes.FindAll(x => x.ingredients.Contains(x.ingredients.Find(y => y.ingredient1.foodId == ingredientOne.foodId && y.ingredient2.foodId == ingredientTwo.foodId)) 
+            || x.ingredients.Contains(x.ingredients.Find(y => y.ingredient1.foodId == ingredientTwo.foodId && y.ingredient2.foodId == ingredientOne.foodId)));
+        
         InstanceFinder.ServerManager.Despawn(pickup1);
         InstanceFinder.ServerManager.Despawn(pickup2);
 
-        // Spawns the recipe
-        if (foundRecipe.foodObject != null) {
+        // Spawns found recipes
+        if (foundRecipes.Count > 0) {
 
-            ResetCombo(comboManager, ingredientOne, ingredientTwo, spawnPoint, player1, player2);
+            ResetCombo(comboManager, player1, player2);
 
-            GameObject spawnedRecipe = Instantiate(foundRecipe.foodObject, spawnPoint, Quaternion.identity);
-            InstanceFinder.ServerManager.Spawn(spawnedRecipe);
+            // For every recipe made with these ingredients—
+            foreach (FoodBase recipe in foundRecipes) {
 
-            ServerUpdateNewRecipePosition(spawnedRecipe, spawnPoint);
+                // Spawn the recipe object if already discovered
+                if (OrderManager.DiscoveredRecipes.Contains(recipe)) {
+
+                    // Spawn the recipe on the server
+                    GameObject discoveredRecipe = Instantiate(recipe.spawnObject, spawnPoint, Quaternion.identity);
+                    InstanceFinder.ServerManager.Spawn(discoveredRecipe);
+
+                    // Update its position
+                    ServerUpdateNewRecipePosition(discoveredRecipe, spawnPoint);
+                }
+                // If the recipe has NOT been discovered, spawn a framework
+                else {
+
+                    // Spawn the framework on the server
+                    GameObject framework = Instantiate(comboManager.recipeFramework, spawnPoint, Quaternion.identity);
+                    InstanceFinder.ServerManager.Spawn(framework);
+
+                    // Assign recipes to the framework
+                    ServerAssignRecipes(framework, recipe);
+
+                    // Update its position
+                    ServerUpdateNewRecipePosition(framework, spawnPoint);
+                }
+            }
+
         } else {
-            Debug.LogWarning("Couldn't find recipe to spawn!");
+            Debug.LogWarning("Couldn't find any recipes to spawn!");
         }
     }
 
     [ObserversRpc]
-    public void ResetCombo(CombinationManager comboManager, FoodPickup ingredientOne, FoodPickup ingredientTwo, Vector3 spawnPoint, GameObject player1, GameObject player2) {
+    public void ResetCombo(CombinationManager comboManager, GameObject player1, GameObject player2) {
         Debug.Log("Combining ingredients");
 
         if (comboManager.heldComboList.Count > 0) {
@@ -72,15 +96,33 @@ public class CombinationManager : NetworkBehaviour
 
     [ServerRpc(RequireOwnership = false)]
     public void ServerUpdateNewRecipePosition(GameObject recipeObject, Vector3 spawnPoint) {
-        UpdateNewRecipePosition(recipeObject, spawnPoint);
+        UpdateNewRecipePosition(recipeObject);
     }
 
     [ObserversRpc]
-    public void UpdateNewRecipePosition(GameObject recipeObject, Vector3 spawnPoint) {
+    public void UpdateNewRecipePosition(GameObject recipeObject) {
 
         recipeObject.transform.position = new(recipeObject.transform.position.x, 1, recipeObject.transform.position.z);
         recipeObject.SetActive(true);
 
         Debug.Log("Spawned recipe: " + recipeObject.name);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerAssignRecipes(GameObject framework, FoodBase recipeToAdd) {
+        AssignRecipes(framework, recipeToAdd);
+    }
+
+    [ObserversRpc]
+    public void AssignRecipes(GameObject framework, FoodBase recipeToAdd) {
+
+        if (framework.TryGetComponent<RecipeFramework>(out var script)) {
+                        
+            if (!script.undiscoveredRecipes.Contains(recipeToAdd)) {
+                script.undiscoveredRecipes.Add(recipeToAdd);
+            }
+        } else {
+            Debug.LogError("Could not find RecipeFramework on: " + framework.name + " object!");
+        }
     }
 }

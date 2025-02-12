@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 42ee832f287e7422ca899b985cc1e26f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bfd66c55b436f2e47814cd9c0ee5c799, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -169,7 +169,8 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 1708774730879461347}
   _networkObjectCache: {fileID: 1708774730879461347}
-  pickup: {fileID: 3940168280724478917}
+  foodBase: {fileID: 3940168280724478917}
+  pickup: {fileID: 529081659741975979}
 --- !u!1 &7967428870908867391
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,11 +182,12 @@ GameObject:
   - component: {fileID: 2351948949850126343}
   - component: {fileID: 670096423049855068}
   - component: {fileID: 1809638354481305040}
+  - component: {fileID: 529081659741975979}
   - component: {fileID: 3940168280724478917}
   - component: {fileID: 1708774730879461347}
-  - component: {fileID: 5709467218166589690}
+  - component: {fileID: 2548400843337980240}
   m_Layer: 0
-  m_Name: ExampleRecipe
+  m_Name: Jalapeno
   m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -200,7 +202,7 @@ Transform:
   m_GameObject: {fileID: 7967428870908867391}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -256,6 +258,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &529081659741975979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7967428870908867391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5918067ea59a84f898e80f05be14eca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 7541583654398144839}
+  heldBy: {fileID: 0}
+  normalSprite: {fileID: 21300000, guid: bfd66c55b436f2e47814cd9c0ee5c799, type: 3}
+  selectedSprite: {fileID: 21300000, guid: 3fd6c9ab8a988d64f95a28bc01299eda, type: 3}
 --- !u!114 &3940168280724478917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,11 +289,19 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 1708774730879461347}
   _networkObjectCache: {fileID: 1708774730879461347}
-  spriteRenderer: {fileID: 7541583654398144839}
-  baseDefinition: {fileID: 11400000, guid: 42aa239ac5d9945a18dccf5b18f52708, type: 2}
-  heldBy: {fileID: 0}
-  normalSprite: {fileID: 21300000, guid: 42ee832f287e7422ca899b985cc1e26f, type: 3}
-  selectedSprite: {fileID: 21300000, guid: 42ee832f287e7422ca899b985cc1e26f, type: 3}
+  spawnObject: {fileID: 7967428870908867391}
+  type: 0
+  foodId: 22
+  isRaw: 0
+  flavorProfile:
+    sweetValue: 0
+    spicyValue: 3
+    savoryValue: 1
+    saltyValue: 0
+    sourValue: 0
+  description: 
+  price: 0
+  ingredients: []
 --- !u!114 &1708774730879461347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,16 +346,16 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 27
+  <PrefabId>k__BackingField: 6
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 15353670943658502771
+  <AssetPathHash>k__BackingField: 14354271374759294510
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
+    Position: {x: -3.45, y: 0.827, z: 4.67}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
---- !u!114 &5709467218166589690
+--- !u!114 &2548400843337980240
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

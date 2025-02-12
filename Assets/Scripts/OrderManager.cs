@@ -20,7 +20,7 @@ public class OrderManager : NetworkBehaviour
     [Header("STATS")] // ------------------------------------------------------------------------------------
 
     [Tooltip("List of all discovered recipes.")]
-    public static List<FoodPair> DiscoveredRecipes = new();
+    public static List<FoodBase> DiscoveredRecipes = new();
 
     [Tooltip("Dictates whether orders are spawned or not.")]
     public bool shopIsOpen = false;
@@ -182,7 +182,7 @@ public class OrderManager : NetworkBehaviour
     public void SpawnCustomer(OrderManager orderManager, OrderBase order) {
 
         // Generate a random discovered recipe to ask for
-        FoodPair selectedRecipe = OrderManager.DiscoveredRecipes[Random.Range(0, OrderManager.DiscoveredRecipes.Count - 1)];
+        FoodBase selectedRecipe = OrderManager.DiscoveredRecipes[Random.Range(0, OrderManager.DiscoveredRecipes.Count - 1)];
 
         // Generate random name
         string nameDiscard = GetRandomOrdererName(orderManager.ordersList.customerNames);
@@ -233,10 +233,10 @@ public class OrderManager : NetworkBehaviour
     }
 
     [ObserversRpc]
-    public void UpdateCustomerOrder(OrderManager orderManager, OrderBase order, string personName, FoodPair recipe) {
+    public void UpdateCustomerOrder(OrderManager orderManager, OrderBase order, string personName, FoodBase recipe) {
 
         // Update chosen recipe to ask for
-        order.specificRecipeOverride = recipe.pickup.baseDefinition;
+        order.specificRecipeOverride = recipe;
 
         // Update orderer name
         order.ordererName = personName;

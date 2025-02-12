@@ -81,5 +81,5 @@ public class GameStateManager : NetworkBehaviour
 
 // Enum list of all game states.
 public enum GameState {
-    MAINMENU, PLAYING, LOADING, GAMEOVER
+    MAINMENU, WAITING, PLAYING, LOADING, GAMEOVER
 }
