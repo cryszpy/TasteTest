@@ -16,6 +16,8 @@ public class PlayerController : NetworkBehaviour
     //[SerializeField] private float cameraYOffset = 0.4f;
     private GameStateManager manager;
 
+    public PlayerItemPickup itemPickup;
+
     public PlayerControls playerControls;
     private InputAction inputMove;
     private InputAction inputPickup;

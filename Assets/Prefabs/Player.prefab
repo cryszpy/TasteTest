@@ -98,10 +98,11 @@ GameObject:
   - component: {fileID: 3366302172567540740}
   - component: {fileID: 4883025070544785489}
   - component: {fileID: 2188682042318299650}
+  - component: {fileID: 700058649812980563}
+  - component: {fileID: 3422067912105800037}
   - component: {fileID: 8552753436402329351}
   - component: {fileID: 9000861899830491416}
   - component: {fileID: 7371741912783813300}
-  - component: {fileID: 700058649812980563}
   - component: {fileID: 1579887082098328814}
   m_Layer: 3
   m_Name: Player
@@ -191,10 +192,52 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 8552753436402329351}
   _networkObjectCache: {fileID: 8552753436402329351}
+  itemPickup: {fileID: 700058649812980563}
   rb: {fileID: 3366302172567540740}
   walkingSpeed: 7.5
   runningSpeed: 11.5
-  lookSpeed: 2
+  lookSpeed: 4
+--- !u!114 &700058649812980563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7122555059012797962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9058637d04a845a4a21d5e806d71d4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 2
+  _addedNetworkObject: {fileID: 8552753436402329351}
+  _networkObjectCache: {fileID: 8552753436402329351}
+  player: {fileID: 2188682042318299650}
+  itemPoint: {fileID: 8897346973840990408}
+  selectedPickup: {fileID: 0}
+  pickupInHand: {fileID: 0}
+--- !u!114 &3422067912105800037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7122555059012797962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17d185c5459b642d29b1b96ccac660fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 8552753436402329351}
+  _networkObjectCache: {fileID: 0}
+  orderManager: {fileID: 0}
+  combinationManager: {fileID: 0}
+  player: {fileID: 2188682042318299650}
+  inRadius: 0
+  selectedCounter: {fileID: 0}
+  defaultColor: {fileID: 2100000, guid: 2ab6a1eb16522439b92183abfc9404b2, type: 2}
+  selectedColor: {fileID: 2100000, guid: 6e42ad1f0df0e44099b2c96881df8c77, type: 2}
 --- !u!114 &8552753436402329351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,25 +351,6 @@ MonoBehaviour:
   _overrideType: 3
   _updateHostVisibility: 1
   _observerConditions: []
---- !u!114 &700058649812980563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7122555059012797962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9058637d04a845a4a21d5e806d71d4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 2
-  _addedNetworkObject: {fileID: 8552753436402329351}
-  _networkObjectCache: {fileID: 8552753436402329351}
-  player: {fileID: 2188682042318299650}
-  itemPoint: {fileID: 8897346973840990408}
-  selectedPickup: {fileID: 0}
-  pickupInHand: {fileID: 0}
 --- !u!114 &1579887082098328814
 MonoBehaviour:
   m_ObjectHideFlags: 0

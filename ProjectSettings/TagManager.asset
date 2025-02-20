@@ -10,6 +10,7 @@ TagManager:
   - CamLookAt
   - CombinationManager
   - GameStateManager
+  - Counter
   layers:
   - Default
   - TransparentFX

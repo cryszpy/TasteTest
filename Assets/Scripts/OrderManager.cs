@@ -11,9 +11,7 @@ public class OrderManager : NetworkBehaviour
 
     [SerializeField] private GameObject orderPrefab;
 
-    [SerializeField] private GameObject bruh;
-
-    [SerializeField] private GameObject pivot;
+    public List<GameObject> counters = new();
 
     public OrdersList ordersList;
 
@@ -21,6 +19,7 @@ public class OrderManager : NetworkBehaviour
 
     [Tooltip("List of all discovered recipes.")]
     public static List<FoodBase> DiscoveredRecipes = new();
+    public List<FoodBase> discoveredRecipesTracker = new();
 
     [Tooltip("Dictates whether orders are spawned or not.")]
     public bool shopIsOpen = false;
@@ -47,9 +46,10 @@ public class OrderManager : NetworkBehaviour
     public List<OrderBase> activeOrders = new();
 
     // Queued list of 4 previous orders for spawn randomization purposes
-    private Queue<OrderBase> recentOrders = new();
+    public Queue<OrderBase> recentOrders = new();
     
     private void Update() {
+        discoveredRecipesTracker = new(DiscoveredRecipes);
 
         if (base.IsServerInitialized) {
 
@@ -107,7 +107,7 @@ public class OrderManager : NetworkBehaviour
 
                     foreach (var recentOrder in orderManager.recentOrders) {
 
-                        if (recentOrder.TryGetComponent<OrderBase>(out var recentScript)) {
+                        if (recentOrder != null && recentOrder.TryGetComponent<OrderBase>(out var recentScript)) {
 
                             if (recentScript.specificRecipeOverride != null) {
 

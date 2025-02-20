@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using FishNet.Object;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum OrderType {
     CRITIC, CUSTOMER
@@ -24,6 +25,8 @@ public struct OrderItem {
 
 public class OrderBase : NetworkBehaviour
 {
+
+    public Image image;
 
     public TMP_Text nameText;
 

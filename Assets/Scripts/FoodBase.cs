@@ -8,22 +8,12 @@ public enum FoodType {
 }
 
 [System.Serializable]
-public struct FlavorProfile {
-    
-    [Range(0, 6)]
-    public int sweetValue;
+public class FlavorProfile {
+
+    public Flavor flavor;
 
     [Range(0, 6)]
-    public int spicyValue;
-
-    [Range(0, 6)]
-    public int savoryValue;
-
-    [Range(0, 6)]
-    public int saltyValue;
-
-    [Range(0, 6)]
-    public int sourValue;
+    public int value;
 }
 
 public class FoodBase : NetworkBehaviour
@@ -41,7 +31,7 @@ public class FoodBase : NetworkBehaviour
 
     public bool isRaw;
 
-    public FlavorProfile flavorProfile;
+    public List<FlavorProfile> flavorProfile;
     
     public string description;
 
