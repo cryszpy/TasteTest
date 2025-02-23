@@ -8,17 +8,23 @@ using System.Collections.Generic;
 public class PlayerOrderRadius : NetworkBehaviour
 {
 
-    [SerializeField] private OrderManager orderManager;
-    [SerializeField] private CombinationManager combinationManager;
+    [Header("SCRIPT REFERENCES")] // -------------------------------------------------------------------------
+
+    private OrderManager orderManager;
+    private CombinationManager combinationManager;
 
     public PlayerController player;
 
-    public bool inRadius;
+    private GameObject selectedCounter;
 
-    public GameObject selectedCounter;
+    [Header("STATS")] // -------------------------------------------------------------------------
 
-    [SerializeField] private Material defaultColor;
-    [SerializeField] private Material selectedColor;
+    private bool inRadius;
+
+    public LayerMask layerMask;
+
+    [SerializeField] private Color defaultColor;
+    [SerializeField] private Color selectedColor;
 
     public override void OnStartClient()
     {
@@ -42,29 +48,27 @@ public class PlayerOrderRadius : NetworkBehaviour
         if (GameStateManager.currentState == GameState.PLAYING) {
 
             // Raycast to select counter
-            if (Physics.Raycast(transform.position, Vector3.forward, out RaycastHit hit, 2.5f)) {
+            if (Physics.Raycast(transform.position, Vector3.forward, out RaycastHit hit, player.reach, layerMask) && hit.collider.CompareTag("Counter")) {
 
-                if (hit.collider.CompareTag("Counter")) {
+                inRadius = true;
 
-                    inRadius = true;
-
-                    ServerAssignCounter(this, hit.collider.gameObject, orderManager);
-                }
+                ServerAssignCounter(this, hit.collider.gameObject, orderManager);
             } else {
 
                 if (selectedCounter) {
 
                     // Disable changed color on previously selected counters
                     if (selectedCounter.TryGetComponent<MeshRenderer>(out var nonCounter)) {
-                        nonCounter.material = defaultColor;
+                        nonCounter.material.color = defaultColor;
                     }
                 }
                 
-                selectedCounter = null;
+                // Unassign order counter
+                ServerUnassignOrder(this);
                 inRadius = false;
             }
 
-            Debug.DrawLine(transform.position, hit.point, Color.yellow, 0.05f);
+            Debug.DrawLine(transform.position, hit.point, Color.cyan, 0.01f);
 
             // If the player presses E and is holding an item—
             if (Input.GetKeyDown(KeyCode.E) && inRadius && player.itemPickup.pickupInHand && orderManager && combinationManager) {
@@ -88,7 +92,7 @@ public class PlayerOrderRadius : NetworkBehaviour
 
             // Temporarily change material color
             if (orderRadius.selectedCounter.TryGetComponent<MeshRenderer>(out var script)) {
-                script.material = orderRadius.selectedColor;
+                script.material.color = orderRadius.selectedColor;
             }
 
             // Disable other counters
@@ -99,10 +103,20 @@ public class PlayerOrderRadius : NetworkBehaviour
 
                 // Disable changed color on previously selected counters
                 if (target.TryGetComponent<MeshRenderer>(out var nonCounter)) {
-                    nonCounter.material = defaultColor;
+                    nonCounter.material.color = defaultColor;
                 }
             }
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerUnassignOrder(PlayerOrderRadius orderRadius) {
+        UnassignOrder(orderRadius);
+    }
+
+    [ObserversRpc]
+    public void UnassignOrder(PlayerOrderRadius orderRadius) {
+        orderRadius.selectedCounter = null;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -112,6 +126,9 @@ public class PlayerOrderRadius : NetworkBehaviour
         OrderBase order = null;
 
         if (orderRadius.selectedCounter.TryGetComponent<Counter>(out var counter)) {
+
+            // Prevent submitting to a nonexistent critic/customer
+            if (manager.activeOrders.Count < counter.slotNumber + 1) return;
 
             if (manager.activeOrders[counter.slotNumber] != null) {
 
@@ -188,84 +205,86 @@ public class PlayerOrderRadius : NetworkBehaviour
         ServerRemoveOrder(manager, order, scoreColor);
     }
 
-    public void EvaluateFramework (RecipeFramework framework, OrderManager manager, OrderBase order) {
-        Debug.Log("EvaluateFramework + " + order.items.Count);
+    public void EvaluateFramework(RecipeFramework framework, OrderManager manager, OrderBase order) {
 
         int score = 0;
 
-        // For every flavor and flavor amount requested—
-        switch (order.items.Count) {
+        // If there are valid recipes in the framework—
+        if (framework.undiscoveredRecipes.Count > 0) {
 
-            case 0:
-                // Create zombie food?
-                Debug.Log("lol lmao");
-                break;
-            case 1:
-                Debug.Log("1 coutn");
+            // For every flavor and flavor amount requested—
+            switch (order.items.Count) {
 
-                FoodBase foundRecipe = framework.undiscoveredRecipes[0];
-
-                // Find if the recipe meets Flavor criteria
-                FlavorProfile flavor = foundRecipe.flavorProfile.Find(x => x.flavor.orderText == order.items[0].flavor.orderText);
-
-                if (flavor != null) {
-
-                    // CORRECTLY FULFILLED (GREEN)
-                    if (flavor.value >= order.items[0].flavorAmount.amountMinimum && flavor.value <= order.items[0].flavorAmount.amountMaximum) {
-
-                        score = 3;
-                        break;
-                    } 
-                    // NOT QUITE (ORANGE)
-                    else {
-                        score = 1;
-                        break;
-                    }
-                } 
-                // UTTER FAILURE (RED)
-                else {
-                    score = 0;
+                case 0:
+                    Debug.Log("lol lmao");
                     break;
-                }
-            case 2:
-                Debug.Log("2 count");
+                case 1:
+                    Debug.Log("1 coutn");
 
-                foreach (FoodBase recipe in framework.undiscoveredRecipes) {
+                    FoodBase foundRecipe = framework.undiscoveredRecipes[0];
 
                     // Find if the recipe meets Flavor criteria
-                    FlavorProfile firstFlavor = recipe.flavorProfile.Find(x => x.flavor.orderText == order.items[0].flavor.orderText);
-                    FlavorProfile secondFlavor = recipe.flavorProfile.Find(x => x.flavor.orderText == order.items[1].flavor.orderText);
+                    FlavorProfile flavor = foundRecipe.flavorProfile.Find(x => x.flavor.orderText == order.items[0].flavor.orderText);
 
-                    // If it does, check for Amount criteria
-                    if (firstFlavor != null && secondFlavor != null) {
-                        
+                    if (flavor != null) {
+
                         // CORRECTLY FULFILLED (GREEN)
-                        if (firstFlavor.value >= order.items[0].flavorAmount.amountMinimum && firstFlavor.value <= order.items[0].flavorAmount.amountMaximum
-                            && secondFlavor.value >= order.items[1].flavorAmount.amountMinimum && secondFlavor.value <= order.items[1].flavorAmount.amountMaximum) {
+                        if (flavor.value >= order.items[0].flavorAmount.amountMinimum && flavor.value <= order.items[0].flavorAmount.amountMaximum) {
 
                             score = 3;
                             break;
                         } 
-                        // MOSTLY CORRECT (YELLOW)
+                        // NOT QUITE (ORANGE)
                         else {
-
-                            score = 2;
+                            score = 1;
                             break;
                         }
-                    }
-                    // NOT QUITE (ORANGE)
-                    else if (!(firstFlavor == null && secondFlavor == null)) {
-
-                        score = 1;
-                        break;
                     } 
                     // UTTER FAILURE (RED)
                     else {
                         score = 0;
                         break;
                     }
-                }
-                break;
+                case 2:
+                    Debug.Log("2 count");
+
+                    foreach (FoodBase recipe in framework.undiscoveredRecipes) {
+
+                        // Find if the recipe meets Flavor criteria
+                        FlavorProfile firstFlavor = recipe.flavorProfile.Find(x => x.flavor.orderText == order.items[0].flavor.orderText);
+                        FlavorProfile secondFlavor = recipe.flavorProfile.Find(x => x.flavor.orderText == order.items[1].flavor.orderText);
+
+                        // If it does, check for Amount criteria
+                        if (firstFlavor != null && secondFlavor != null) {
+                            
+                            // CORRECTLY FULFILLED (GREEN)
+                            if (firstFlavor.value >= order.items[0].flavorAmount.amountMinimum && firstFlavor.value <= order.items[0].flavorAmount.amountMaximum
+                                && secondFlavor.value >= order.items[1].flavorAmount.amountMinimum && secondFlavor.value <= order.items[1].flavorAmount.amountMaximum) {
+
+                                score = 3;
+                                break;
+                            } 
+                            // MOSTLY CORRECT (YELLOW)
+                            else {
+
+                                score = 2;
+                                break;
+                            }
+                        }
+                        // NOT QUITE (ORANGE)
+                        else if (!(firstFlavor == null && secondFlavor == null)) {
+
+                            score = 1;
+                            break;
+                        } 
+                        // UTTER FAILURE (RED)
+                        else {
+                            score = 0;
+                            break;
+                        }
+                    }
+                    break;
+            }
         }
 
         Color scoreColor = Color.white;

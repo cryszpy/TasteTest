@@ -13,8 +13,9 @@ public class PlayerController : NetworkBehaviour
 
     [Header("SCRIPT REFERENCES")]
  
-    //[SerializeField] private float cameraYOffset = 0.4f;
     private GameStateManager manager;
+
+    public Collider pickupRadius;
 
     public PlayerItemPickup itemPickup;
 
@@ -22,12 +23,14 @@ public class PlayerController : NetworkBehaviour
     private InputAction inputMove;
     private InputAction inputPickup;
 
-    [SerializeField] private Rigidbody rb;
+    public Rigidbody rb;
 
     [Header("STATS")]
     public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
     public float lookSpeed = 4.0f;
+
+    public float reach = 2.5f;
  
     Vector3 moveDirection = Vector3.zero;
 
@@ -52,8 +55,7 @@ public class PlayerController : NetworkBehaviour
         if (base.IsOwner)
         {            
             manager = GameObject.FindGameObjectWithTag("GameStateManager").GetComponent<GameStateManager>();
-            //cam.transform.position = new Vector3(transform.position.x, transform.position.y + cameraYOffset, transform.position.z);
-            //cam.Follow = transform;
+
             ServerAddPlayer(manager, GameObject.FindGameObjectsWithTag("Player").ToList());
 
             // Changes the game's state to waiting.

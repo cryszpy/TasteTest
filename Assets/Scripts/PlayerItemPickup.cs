@@ -107,8 +107,8 @@ public class PlayerItemPickup : NetworkBehaviour
         }
 
         // Prevents player from picking other objects up by disabling collider
-        if (player.TryGetComponent<SphereCollider>(out var coll)) {
-            coll.enabled = false;
+        if (player.TryGetComponent<PlayerController>(out var p)) {
+            p.pickupRadius.enabled = false;
         }
 
         // Changes position of the pickup
@@ -119,6 +119,11 @@ public class PlayerItemPickup : NetworkBehaviour
 
         // Sets pickup as currently held object
         script.pickupInHand = itemObj;
+
+        // Enables object if disabled
+        if (!script.pickupInHand.activeInHierarchy) {
+            script.pickupInHand.SetActive(true);
+        }
     }
 
     // Tells the server to drop an item
@@ -144,8 +149,8 @@ public class PlayerItemPickup : NetworkBehaviour
         pickupInHand = null;
 
         // Re-enables player pickup collider
-        if (player.TryGetComponent<SphereCollider>(out var coll)) {
-            coll.enabled = true;
+        if (player.TryGetComponent<PlayerController>(out var p)) {
+            p.pickupRadius.enabled = true;
         }
 
         if (obj.TryGetComponent<Pickup>(out var ingredient)) {

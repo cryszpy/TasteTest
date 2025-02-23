@@ -43,4 +43,13 @@ public class Menu : MonoBehaviour
 
         loadingScreen.SetActive(false);
     }
+
+    public void EnableStartMenu() {
+
+        mainMenu.SetActive(true);
+
+        joinMenu.SetActive(true);
+
+        loadingScreen.SetActive(false);
+    }
 }

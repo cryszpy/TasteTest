@@ -270,6 +270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5918067ea59a84f898e80f05be14eca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 1708774730879461347}
+  _networkObjectCache: {fileID: 0}
   spriteRenderer: {fileID: 7541583654398144839}
   heldBy: {fileID: 0}
   normalSprite: {fileID: 21300000, guid: 106b663e448cc445ea26676f3e857592, type: 3}
@@ -290,15 +293,25 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1708774730879461347}
   _networkObjectCache: {fileID: 1708774730879461347}
   spawnObject: {fileID: 7967428870908867391}
+  transformedVersions:
+  - transformedIngredient: {fileID: 3940168280724478917, guid: 2a1774cf16fa54874b7131d83d23eecb, type: 3}
+    cookingStation: 1
+  - transformedIngredient: {fileID: 3940168280724478917, guid: cd39002273ebe4ad7892c68f15f7c068, type: 3}
+    cookingStation: 0
   type: 0
   foodId: 3
   isRaw: 0
   flavorProfile:
-    sweetValue: 1
-    spicyValue: 0
-    savoryValue: 0
-    saltyValue: 1
-    sourValue: 0
+  - flavor: {fileID: 0}
+    value: 0
+  - flavor: {fileID: 0}
+    value: 0
+  - flavor: {fileID: 0}
+    value: 0
+  - flavor: {fileID: 0}
+    value: 0
+  - flavor: {fileID: 0}
+    value: 0
   description: 
   price: 0
   ingredients: []

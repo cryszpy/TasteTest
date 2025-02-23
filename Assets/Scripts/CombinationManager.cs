@@ -9,7 +9,7 @@ public class CombinationManager : NetworkBehaviour
 
     public GameObject recipeFramework;
 
-    public RecipesList recipesList;
+    public FoodList recipesList;
 
     public List<FoodCombo> heldComboList = new();
 
@@ -61,7 +61,19 @@ public class CombinationManager : NetworkBehaviour
             }
 
         } else {
-            Debug.LogWarning("Couldn't find any recipes to spawn!");
+            Debug.LogWarning("Not a valid ingredient combo! Spawning empty framework.");
+
+            ResetCombo(comboManager, player1, player2);
+
+            // Spawn the framework on the server
+            GameObject framework = Instantiate(comboManager.recipeFramework, spawnPoint, Quaternion.identity);
+            InstanceFinder.ServerManager.Spawn(framework);
+
+            // Assign recipes to the framework
+            ServerAssignRecipes(framework, null);
+
+            // Update its position
+            ServerUpdateNewRecipePosition(framework, spawnPoint);
         }
     }
 
@@ -79,8 +91,8 @@ public class CombinationManager : NetworkBehaviour
             script1.selectedPickup = null;
         }
 
-        if (player1.TryGetComponent<SphereCollider>(out var coll1)) {
-            coll1.enabled = true;
+        if (player1.TryGetComponent<PlayerController>(out var p1)) {
+            p1.pickupRadius.enabled = true;
         }
 
         // Reset player 2 held items
@@ -89,8 +101,8 @@ public class CombinationManager : NetworkBehaviour
             script2.selectedPickup = null;
         }
 
-        if (player2.TryGetComponent<SphereCollider>(out var coll2)) {
-            coll2.enabled = true;
+        if (player2.TryGetComponent<PlayerController>(out var p2)) {
+            p2.pickupRadius.enabled = true;
         }
     }
 
@@ -118,8 +130,10 @@ public class CombinationManager : NetworkBehaviour
 
         if (framework.TryGetComponent<RecipeFramework>(out var script)) {
                         
-            if (!script.undiscoveredRecipes.Contains(recipeToAdd)) {
+            if (recipeToAdd && !script.undiscoveredRecipes.Contains(recipeToAdd)) {
                 script.undiscoveredRecipes.Add(recipeToAdd);
+            } else {
+                Debug.LogWarning("No recipes were added to this new framework!");
             }
         } else {
             Debug.LogError("Could not find RecipeFramework on: " + framework.name + " object!");

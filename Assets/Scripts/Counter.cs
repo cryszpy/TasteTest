@@ -34,22 +34,17 @@ public class Counter : NetworkBehaviour
 
     [ServerRpc(RequireOwnership = false)]
     public void ServerUnlockRecipe(PlayerOrderRadius orderRadius, Counter counter) {
-        UnlockRecipe(orderRadius, counter);
-    }
-
-    [ObserversRpc]
-    public void UnlockRecipe(PlayerOrderRadius orderRadius, Counter counter) {
         StartCoroutine(DiscoverAnimation(counter));
     }
 
     private IEnumerator DiscoverAnimation(Counter counter) {
         Debug.Log("ANIMAITON");
 
-        // Play particle animation
+        // Play particle animation OBSERVERS
 
         yield return new WaitForSeconds(0.5f);
 
-        // Stop particle animation
+        // Stop particle animation OBSERVERS
 
         yield return new WaitForSeconds(1.5f);
 
@@ -62,6 +57,9 @@ public class Counter : NetworkBehaviour
             foreach (var recipe in script.undiscoveredRecipes) {
                 
                 GameObject spawnedRecipe = Instantiate(recipe.spawnObject, counter.spawnPoint.transform);
+                InstanceFinder.ServerManager.Spawn(spawnedRecipe);
+
+                ServerUpdatePosition(spawnedRecipe);
 
                 spawnedRecipes.Add(spawnedRecipe);
             }
@@ -88,5 +86,15 @@ public class Counter : NetworkBehaviour
         } else {
             Debug.LogError("Could not get RecipeFramework component on: " + counter.heldItem.name + "!");
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ServerUpdatePosition(GameObject obj) {
+        UpdatePosition(obj);
+    }
+
+    [ObserversRpc]
+    private void UpdatePosition(GameObject obj) {
+        obj.transform.localPosition = Vector3.zero;
     }
 }

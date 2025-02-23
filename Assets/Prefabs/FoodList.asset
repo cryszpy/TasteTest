@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0324f1d5505e94e62a7dcad94f5f77c1, type: 3}
+  m_Name: FoodList
+  m_EditorClassIdentifier: 
+  ingredients:
+  - {fileID: 3940168280724478917, guid: 0e064e9cebff746289fbc1638ca2c476, type: 3}
+  - {fileID: 3940168280724478917, guid: 4f4c9ac02ac614ad1a673641a31f7835, type: 3}
+  - {fileID: 3940168280724478917, guid: 93a1354e4bb9b4ad5871e3569b84bd3c, type: 3}
+  - {fileID: 3940168280724478917, guid: 6f11d7f081fa641bea138a56d3ca002b, type: 3}
+  - {fileID: 3940168280724478917, guid: f665f5d1e498241b9a366594cbe81389, type: 3}
+  - {fileID: 3940168280724478917, guid: 7d661755d78f34a43adaf6cafe005e63, type: 3}
+  - {fileID: 3940168280724478917, guid: 2e8722cb3f94d4ecda10a9175ad9c35f, type: 3}
+  - {fileID: 3940168280724478917, guid: efb8812c4e4b240e08bc8fea5d175dd9, type: 3}
+  - {fileID: 3940168280724478917, guid: ec01b4ac36502486890a09760606e737, type: 3}
+  - {fileID: 3940168280724478917, guid: 98f06752f309240c397faba20a8bc1da, type: 3}
+  - {fileID: 3940168280724478917, guid: 314b9c8549ed84d4991fc044fa7f859d, type: 3}
+  - {fileID: 3940168280724478917, guid: e7ce9c72a7dd84541870ae4f944d25a6, type: 3}
+  - {fileID: 3940168280724478917, guid: a2dda9c6e654445ea8df16436cc80e49, type: 3}
+  - {fileID: 3940168280724478917, guid: cbd48dc02b5124af1b2775c456e1da1b, type: 3}
+  - {fileID: 3940168280724478917, guid: 840e3da62a062435bb7486b82cfd53fe, type: 3}
+  - {fileID: 3940168280724478917, guid: c5cb3e2646264425d9a9b2b3c372ef57, type: 3}
+  - {fileID: 3940168280724478917, guid: e9e4150f9f5184e4ab96177af83c60db, type: 3}
+  - {fileID: 3940168280724478917, guid: 07a72ca1165504ce0b8bc31442dc5a72, type: 3}
+  - {fileID: 3940168280724478917, guid: ecea9c2778e4d4b158b4f05352574dea, type: 3}
+  - {fileID: 3940168280724478917, guid: 5f425ad6c902344b1b19a4235480dd77, type: 3}
+  - {fileID: 3940168280724478917, guid: 9b41a49d4d5084d04ac9c248f3606d73, type: 3}
+  - {fileID: 3940168280724478917, guid: 25afef45e30da4b98bb61ee78b4fdadc, type: 3}
+  transformed:
+  - {fileID: 3940168280724478917, guid: 9454f41c1f0204c72bc87a2f1ae4a9fc, type: 3}
+  - {fileID: 3940168280724478917, guid: 691178a0172074a0785ad5724a87b02b, type: 3}
+  - {fileID: 3940168280724478917, guid: 333632b32fc9942f391db751ae9b3fc4, type: 3}
+  - {fileID: 3940168280724478917, guid: b2e5130aeb1e24319a613a90a244915a, type: 3}
+  - {fileID: 3940168280724478917, guid: cf67cecf1280f4716b28512e33aa3fce, type: 3}
+  - {fileID: 3940168280724478917, guid: 1aebd9e945c2841d1bd4c7b8577b50f7, type: 3}
+  - {fileID: 3940168280724478917, guid: 08ec9ad98db4541b8bba4ff84572b9ce, type: 3}
+  - {fileID: 3940168280724478917, guid: d1d73cf8b0dfa485d8a27914181af9ad, type: 3}
+  - {fileID: 3940168280724478917, guid: ab69eba7bb8624845abf639624dee156, type: 3}
+  - {fileID: 3940168280724478917, guid: 2a1774cf16fa54874b7131d83d23eecb, type: 3}
+  - {fileID: 3940168280724478917, guid: cd39002273ebe4ad7892c68f15f7c068, type: 3}
+  recipes:
+  - {fileID: 3940168280724478917, guid: 30000501be6ee467c9aa61d0903e37f3, type: 3}
+  - {fileID: 3940168280724478917, guid: a5d593ddbc4344137828484ff90de5ca, type: 3}
+  - {fileID: 3940168280724478917, guid: 7c19eebefe71c419786646ba1bcae978, type: 3}

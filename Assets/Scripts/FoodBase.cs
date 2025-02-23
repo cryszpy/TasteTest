@@ -3,6 +3,10 @@ using FishNet.Connection;
 using UnityEngine;
 using System.Collections.Generic;
 
+public enum CookingStation {
+    NONE, CUTTING_BOARD, STOVETOP_OVEN
+}
+
 public enum FoodType {
     INGREDIENT, TRANSFORMED, RECIPE, FRAMEWORK
 }
@@ -16,12 +20,22 @@ public class FlavorProfile {
     public int value;
 }
 
+[System.Serializable]
+public class TransformedFood {
+
+    public FoodBase transformedIngredient;
+
+    public CookingStation cookingStation;
+}
+
 public class FoodBase : NetworkBehaviour
 {
 
     [Header("SCRIPT REFERENCES")]
 
     public GameObject spawnObject;
+
+    public List<TransformedFood> transformedVersions = new();
 
     [Header("STATS")]
 

@@ -3,7 +3,12 @@ guid: 0c8620bea01240c4f9350534203c347e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: IMG_1050
+    second: {fileID: 2800000, guid: 5c74191be0153428eb83677307cef9f7, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -65,7 +70,7 @@ ModelImporter:
     secondaryUVMinLightmapResolution: 40
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
-    useFileScale: 1
+    useFileScale: 0
     strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FishNet.Example;
 using FishNet.Managing;
+using FishNet.Managing.Scened;
 using FishNet.Managing.Transporting;
 using FishNet.Transporting.UTP;
 using TMPro;
@@ -152,6 +153,10 @@ public class Relay : MonoBehaviour
         } catch (RelayServiceException e) {
             Debug.Log("JOIN CODE IS INVALID! See exception for further details:");
             Debug.Log(e);
+
+            // Resets
+            gameStateManager.menu.DisableLoadingScreen();
+            gameStateManager.menu.EnableStartMenu();
             return false;
         }
     }
