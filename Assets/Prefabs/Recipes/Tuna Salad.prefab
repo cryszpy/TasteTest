@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e7e7573d4b92747b8aaecf007104c965, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7794dd723fb704a87ac60d1a4473dcad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 1708774730879461347}
   - component: {fileID: 5709467218166589690}
   m_Layer: 0
-  m_Name: Mushroom Risotto
+  m_Name: Tuna Salad
   m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -275,8 +275,8 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 0}
   spriteRenderer: {fileID: 7541583654398144839}
   heldBy: {fileID: 0}
-  normalSprite: {fileID: 21300000, guid: e7e7573d4b92747b8aaecf007104c965, type: 3}
-  selectedSprite: {fileID: 21300000, guid: f3718453e247c4e9eb21efaa0878aed1, type: 3}
+  normalSprite: {fileID: 21300000, guid: 7794dd723fb704a87ac60d1a4473dcad, type: 3}
+  selectedSprite: {fileID: 21300000, guid: bf676c260984c4e68a1d70bf286ca989, type: 3}
 --- !u!114 &3940168280724478917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +295,7 @@ MonoBehaviour:
   spawnObject: {fileID: 7967428870908867391}
   transformedVersions: []
   type: 2
-  foodId: 3
+  foodId: 5
   isRaw: 0
   flavorProfile:
   - flavor: {fileID: 11400000, guid: f6889007dd43f4f669861798f7e8d2dd, type: 2}
@@ -311,10 +311,10 @@ MonoBehaviour:
   description: 
   price: 0
   ingredients:
-  - ingredient1: {fileID: 3940168280724478917, guid: a2dda9c6e654445ea8df16436cc80e49, type: 3}
-    pickup1: {fileID: 7967428870908867391, guid: a2dda9c6e654445ea8df16436cc80e49, type: 3}
-    ingredient2: {fileID: 3940168280724478917, guid: e9e4150f9f5184e4ab96177af83c60db, type: 3}
-    pickup2: {fileID: 7967428870908867391, guid: e9e4150f9f5184e4ab96177af83c60db, type: 3}
+  - ingredient1: {fileID: 3940168280724478917, guid: b2e5130aeb1e24319a613a90a244915a, type: 3}
+    pickup1: {fileID: 7967428870908867391, guid: b2e5130aeb1e24319a613a90a244915a, type: 3}
+    ingredient2: {fileID: 3940168280724478917, guid: 07a72ca1165504ce0b8bc31442dc5a72, type: 3}
+    pickup2: {fileID: 7967428870908867391, guid: 07a72ca1165504ce0b8bc31442dc5a72, type: 3}
 --- !u!114 &1708774730879461347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,7 +361,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 27
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 12631839884037580019
+  <AssetPathHash>k__BackingField: 15383029149975501357
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
