@@ -15,11 +15,15 @@ public class ApplianceFridge : ApplianceBase
 
     public GameObject cartElement;
 
-    public Queue<GameObject> ingredientQueue = new();
-    public List<GameObject> ingredientQueueTracker = new();
+    public Queue<GameObject> cartQueue = new();
+    public List<GameObject> cartQueueTracker = new();
+
+    public Queue<GameObject> cartScreenQueue = new();
+    public List<GameObject> cartScreenTracker = new();
 
     public void Update() {
-        ingredientQueueTracker = new(ingredientQueue);
+        cartQueueTracker = new(cartQueue);
+        cartScreenTracker = new(cartScreenQueue);
     }
 
     public override void ServerUseAppliance(PlayerApplianceRaycast playerRaycast) {
@@ -72,7 +76,7 @@ public class ApplianceFridge : ApplianceBase
     public void AddToCart(ApplianceFridge _fridge, GameObject food) {
 
         // Add food to queue
-        _fridge.ingredientQueue.Enqueue(food);
+        _fridge.cartQueue.Enqueue(food);
 
         // Update fridge UI cart
         GameObject element = Instantiate(_fridge.cartElement, _fridge.pivot.transform);
@@ -80,6 +84,28 @@ public class ApplianceFridge : ApplianceBase
         if (element.TryGetComponent<CartElement>(out var script) && food.TryGetComponent<Pickup>(out var pickup)) {
             script.ingredientImage.sprite = pickup.normalSprite;
             script.ingredientText.text = food.name;
+        }
+
+        _fridge.cartScreenQueue.Enqueue(element);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerRemoveFromCart(ApplianceFridge _fridge) {
+        RemoveFromCart(_fridge);
+    }
+
+    [ObserversRpc]
+    public void RemoveFromCart(ApplianceFridge _fridge) {
+
+        if (_fridge.cartQueue.Count > 0) {
+            _fridge.cartQueue.Dequeue();
+        }
+
+        if (_fridge.cartScreenQueue.Count > 0) {
+
+            GameObject toRemove = _fridge.cartScreenQueue.Dequeue();
+
+            Destroy(toRemove);
         }
     }
 }

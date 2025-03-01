@@ -181,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2351948949850126343}
   - component: {fileID: 670096423049855068}
-  - component: {fileID: 1809638354481305040}
+  - component: {fileID: 4407564993743998059}
   - component: {fileID: 1542581527014635198}
   - component: {fileID: 3940168280724478917}
   - component: {fileID: 1708774730879461347}
@@ -237,14 +237,14 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!65 &1809638354481305040
-BoxCollider:
+--- !u!136 &4407564993743998059
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7967428870908867391}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 01465041d6ad44526842899f0aac7f6f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -255,8 +255,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 0.75
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1542581527014635198
 MonoBehaviour:
@@ -270,6 +272,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5918067ea59a84f898e80f05be14eca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 1708774730879461347}
+  _networkObjectCache: {fileID: 0}
   spriteRenderer: {fileID: 7541583654398144839}
   heldBy: {fileID: 0}
   normalSprite: {fileID: 21300000, guid: 20be11e9324f8c747bc8f2cdc7865c5c, type: 3}
@@ -290,15 +295,21 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1708774730879461347}
   _networkObjectCache: {fileID: 1708774730879461347}
   spawnObject: {fileID: 7967428870908867391}
+  transformedVersions: []
   type: 0
   foodId: 21
   isRaw: 0
   flavorProfile:
-    sweetValue: 1
-    spicyValue: 3
-    savoryValue: 0
-    saltyValue: 0
-    sourValue: 0
+  - flavor: {fileID: 0}
+    value: 0
+  - flavor: {fileID: 0}
+    value: 0
+  - flavor: {fileID: 0}
+    value: 0
+  - flavor: {fileID: 0}
+    value: 0
+  - flavor: {fileID: 0}
+    value: 0
   description: 
   price: 0
   ingredients: []

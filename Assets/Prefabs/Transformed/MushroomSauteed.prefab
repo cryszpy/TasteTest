@@ -181,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2351948949850126343}
   - component: {fileID: 670096423049855068}
-  - component: {fileID: 1809638354481305040}
+  - component: {fileID: 1099201250062395571}
   - component: {fileID: 1880398652437957759}
   - component: {fileID: 3940168280724478917}
   - component: {fileID: 1708774730879461347}
@@ -237,14 +237,14 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!65 &1809638354481305040
-BoxCollider:
+--- !u!136 &1099201250062395571
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7967428870908867391}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 01465041d6ad44526842899f0aac7f6f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -255,8 +255,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 0.75
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1880398652437957759
 MonoBehaviour:
@@ -276,7 +278,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 7541583654398144839}
   heldBy: {fileID: 0}
   normalSprite: {fileID: 21300000, guid: 8ced1c9a6789b45a89df3a716d202152, type: 3}
-  selectedSprite: {fileID: 21300000, guid: 871c37ea2aa2441068a9e0c3303fab6b, type: 3}
+  selectedSprite: {fileID: 21300000, guid: 2a7798cf8f90b4d34bf75965a349ef53, type: 3}
 --- !u!114 &3940168280724478917
 MonoBehaviour:
   m_ObjectHideFlags: 0
