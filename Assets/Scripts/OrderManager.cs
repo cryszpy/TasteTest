@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using FishNet;
 using FishNet.Object;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OrderManager : NetworkBehaviour
 {
@@ -14,6 +15,9 @@ public class OrderManager : NetworkBehaviour
     public List<GameObject> counters = new();
 
     public OrdersList ordersList;
+
+    [SerializeField] private List<Sprite> criticImages = new();
+    [SerializeField] private List<Sprite> customerImages = new();
 
     [Header("STATS")] // ------------------------------------------------------------------------------------
 
@@ -212,6 +216,10 @@ public class OrderManager : NetworkBehaviour
             order.itemText.text = order.items[0].flavorAmount.orderText + " " + order.items[0].flavor.orderText;
         }
 
+        if (orderManager.criticImages.Count > 0) {
+            order.ordererImage.sprite = orderManager.criticImages[Random.Range(0, orderManager.criticImages.Count)];
+        }
+
         // Add spawned order to active orders listed
         if (!orderManager.activeOrders.Contains(order)) {
             orderManager.activeOrders.Add(order);
@@ -248,6 +256,10 @@ public class OrderManager : NetworkBehaviour
 
         if (order.items.Count > 0) {
             order.itemText.text = order.items[0].flavorAmount.orderText + " " + order.items[0].flavor.orderText;
+        }
+
+        if (orderManager.customerImages.Count > 0) {
+            order.ordererImage.sprite = orderManager.customerImages[Random.Range(0, orderManager.customerImages.Count)];
         }
 
         // Add spawned order to active orders listed

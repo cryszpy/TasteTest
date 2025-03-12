@@ -344,7 +344,7 @@ public class PlayerOrderRadius : NetworkBehaviour
 
         order.image.color = color;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         order.image.color = prevColor;
 

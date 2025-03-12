@@ -920,6 +920,10 @@ MonoBehaviour:
   - {fileID: 898965568}
   - {fileID: 360171607}
   ordersList: {fileID: 11400000, guid: ec0fab78ff7c94d42b4a1e4b9c623a1b, type: 2}
+  criticImages:
+  - {fileID: 21300000, guid: 52f785bae1d384e18ad50a36e793b286, type: 3}
+  - {fileID: 21300000, guid: fff3e3c7827574be289abc4e59b31001, type: 3}
+  customerImages: []
   discoveredRecipesTracker: []
   shopIsOpen: 0
   maxOrderAmount: 5

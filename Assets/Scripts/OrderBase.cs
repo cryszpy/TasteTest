@@ -32,6 +32,8 @@ public class OrderBase : NetworkBehaviour
 
     public TMP_Text itemText;
 
+    public Image ordererImage;
+
     public OrderType type;
 
     public FoodBase specificRecipeOverride = null;
