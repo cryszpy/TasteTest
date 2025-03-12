@@ -1,11 +1,6 @@
 using UnityEngine;
 using FishNet.Connection;
 using FishNet.Object;
-using FishNet;
-using System.Collections;
-using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
-using TMPro;
 
 public class PlayerApplianceRaycast : NetworkBehaviour
 {
