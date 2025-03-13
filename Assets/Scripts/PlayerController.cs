@@ -60,6 +60,9 @@ public class PlayerController : NetworkBehaviour
 
             // Changes the game's state to waiting.
             GameStateManager.SetState(GameState.WAITING);
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else
         {
@@ -97,6 +100,10 @@ public class PlayerController : NetworkBehaviour
             moveDirection = new Vector3(moveDirection.x * speed, 0, moveDirection.y * speed);
 
             RotateInDirection(moveDirection);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            manager.menu.TogglePauseMenu();
         }
     }
  

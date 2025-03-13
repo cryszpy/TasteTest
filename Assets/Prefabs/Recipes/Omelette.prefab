@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 42ee832f287e7422ca899b985cc1e26f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c7908e9635c2e4dbe80bae85f4c07112, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -277,8 +277,8 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 0}
   spriteRenderer: {fileID: 7541583654398144839}
   heldBy: {fileID: 0}
-  normalSprite: {fileID: 21300000, guid: 42ee832f287e7422ca899b985cc1e26f, type: 3}
-  selectedSprite: {fileID: 21300000, guid: 42ee832f287e7422ca899b985cc1e26f, type: 3}
+  normalSprite: {fileID: 21300000, guid: c7908e9635c2e4dbe80bae85f4c07112, type: 3}
+  selectedSprite: {fileID: 21300000, guid: 7d18bd6c8ca05417da36054769e66cf7, type: 3}
 --- !u!114 &3940168280724478917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,23 +300,31 @@ MonoBehaviour:
   foodId: 13
   isRaw: 0
   flavorProfile:
-  - flavor: {fileID: 0}
+  - flavor: {fileID: 11400000, guid: 874e162b65b944c88ad4711fe598e805, type: 2}
+    value: 2
+  - flavor: {fileID: 11400000, guid: 1d0a37b62cd8d48b18178fd73d9c9f19, type: 2}
+    value: 5
+  - flavor: {fileID: 11400000, guid: 79557a66ec4614d44a103361cd13d60a, type: 2}
     value: 0
-  - flavor: {fileID: 0}
+  - flavor: {fileID: 11400000, guid: fc072624c41694eb5bf515a6a10b166c, type: 2}
     value: 0
-  - flavor: {fileID: 0}
-    value: 0
-  - flavor: {fileID: 0}
-    value: 0
-  - flavor: {fileID: 0}
-    value: 0
+  - flavor: {fileID: 11400000, guid: f6889007dd43f4f669861798f7e8d2dd, type: 2}
+    value: 4
   description: 
   price: 0
   ingredients:
   - ingredient1: {fileID: 3940168280724478917, guid: 7d661755d78f34a43adaf6cafe005e63, type: 3}
     pickup1: {fileID: 7967428870908867391, guid: 7d661755d78f34a43adaf6cafe005e63, type: 3}
-    ingredient2: {fileID: 3940168280724478917, guid: a2dda9c6e654445ea8df16436cc80e49, type: 3}
-    pickup2: {fileID: 7967428870908867391, guid: a2dda9c6e654445ea8df16436cc80e49, type: 3}
+    ingredient2: {fileID: 3940168280724478917, guid: cf67cecf1280f4716b28512e33aa3fce, type: 3}
+    pickup2: {fileID: 7967428870908867391, guid: cf67cecf1280f4716b28512e33aa3fce, type: 3}
+  - ingredient1: {fileID: 3940168280724478917, guid: 7d661755d78f34a43adaf6cafe005e63, type: 3}
+    pickup1: {fileID: 7967428870908867391, guid: 7d661755d78f34a43adaf6cafe005e63, type: 3}
+    ingredient2: {fileID: 3940168280724478917, guid: 1aebd9e945c2841d1bd4c7b8577b50f7, type: 3}
+    pickup2: {fileID: 7967428870908867391, guid: 1aebd9e945c2841d1bd4c7b8577b50f7, type: 3}
+  - ingredient1: {fileID: 3940168280724478917, guid: 7d661755d78f34a43adaf6cafe005e63, type: 3}
+    pickup1: {fileID: 7967428870908867391, guid: 7d661755d78f34a43adaf6cafe005e63, type: 3}
+    ingredient2: {fileID: 3940168280724478917, guid: 2a1774cf16fa54874b7131d83d23eecb, type: 3}
+    pickup2: {fileID: 7967428870908867391, guid: 2a1774cf16fa54874b7131d83d23eecb, type: 3}
 --- !u!114 &1708774730879461347
 MonoBehaviour:
   m_ObjectHideFlags: 0

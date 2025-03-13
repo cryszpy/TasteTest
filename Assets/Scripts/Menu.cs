@@ -13,6 +13,8 @@ public class Menu : MonoBehaviour
 
     public GameObject startButton;
 
+    public GameObject pauseScreen;
+
     // Called when the join butten is pressed from OnClick() event
     public void JoinButtonPressed() {
 
@@ -51,5 +53,29 @@ public class Menu : MonoBehaviour
         joinMenu.SetActive(true);
 
         loadingScreen.SetActive(false);
+    }
+
+    // Toggles pause menu
+    public void TogglePauseMenu() {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        // UNPAUSE
+        if (pauseScreen.activeInHierarchy) {
+
+            // Hides pause menu
+            pauseScreen.SetActive(false);
+        } 
+        // PAUSE
+        else {
+
+            // Shows pause menu
+            pauseScreen.SetActive(true);
+        }
+    }
+
+    public void QuitButton() {
+        Debug.Log("Quit application!");
+        Application.Quit();
     }
 }

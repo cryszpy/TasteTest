@@ -301,22 +301,22 @@ MonoBehaviour:
   isRaw: 0
   flavorProfile:
   - flavor: {fileID: 11400000, guid: f6889007dd43f4f669861798f7e8d2dd, type: 2}
-    value: 6
+    value: 0
   - flavor: {fileID: 11400000, guid: fc072624c41694eb5bf515a6a10b166c, type: 2}
-    value: 6
+    value: 0
   - flavor: {fileID: 11400000, guid: 1d0a37b62cd8d48b18178fd73d9c9f19, type: 2}
-    value: 6
+    value: 1
   - flavor: {fileID: 11400000, guid: 874e162b65b944c88ad4711fe598e805, type: 2}
-    value: 6
+    value: 3
   - flavor: {fileID: 11400000, guid: 79557a66ec4614d44a103361cd13d60a, type: 2}
-    value: 6
+    value: 0
   description: 
   price: 0
   ingredients:
   - ingredient1: {fileID: 3940168280724478917, guid: b2e5130aeb1e24319a613a90a244915a, type: 3}
     pickup1: {fileID: 7967428870908867391, guid: b2e5130aeb1e24319a613a90a244915a, type: 3}
-    ingredient2: {fileID: 3940168280724478917, guid: 07a72ca1165504ce0b8bc31442dc5a72, type: 3}
-    pickup2: {fileID: 7967428870908867391, guid: 07a72ca1165504ce0b8bc31442dc5a72, type: 3}
+    ingredient2: {fileID: 3940168280724478917, guid: 236fd35e7977b4d03a809c8c425538ad, type: 3}
+    pickup2: {fileID: 7967428870908867391, guid: 236fd35e7977b4d03a809c8c425538ad, type: 3}
 --- !u!114 &1708774730879461347
 MonoBehaviour:
   m_ObjectHideFlags: 0

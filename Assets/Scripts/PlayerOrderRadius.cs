@@ -71,7 +71,7 @@ public class PlayerOrderRadius : NetworkBehaviour
             Debug.DrawLine(transform.position, hit.point, Color.cyan, 0.01f);
 
             // If the player presses E and is holding an item—
-            if (Input.GetKeyDown(KeyCode.E) && inRadius && player.itemPickup.pickupInHand && orderManager && combinationManager) {
+            if (Input.GetKeyDown(KeyCode.E) && inRadius && player.itemPickup.pickupInHand && orderManager && combinationManager && selectedCounter) {
 
                 // ORDER EVALUATION MECHANICS
                 ServerEvaluateOrder(this, orderManager, player.itemPickup.pickupInHand);
@@ -130,6 +130,8 @@ public class PlayerOrderRadius : NetworkBehaviour
             // Prevent submitting to a nonexistent critic/customer
             if (manager.activeOrders.Count < counter.slotNumber + 1) return;
 
+            if (counter.heldItem) return;
+
             if (manager.activeOrders[counter.slotNumber] != null) {
 
                 order = manager.activeOrders[counter.slotNumber];
@@ -139,42 +141,75 @@ public class PlayerOrderRadius : NetworkBehaviour
                 Debug.LogError("Evaluated order is null!");
             }
 
-            // SUBMITTING A RECIPE
-            if (food.TryGetComponent<FoodBase>(out var foodBase)) {
+            // If this is a customer order—
+            if (order.specificRecipeOverride) {
 
-                if (foodBase.type == FoodType.RECIPE) {
+                if (food.TryGetComponent<FoodBase>(out var foodBase)) {
+
+                    // Update food item transform and parent
+                    ServerUpdateTransform(food, counter);
+
+                    // Check for specific recipe
+                    EvaluateRecipe(manager, foodBase, order, counter);
+
+                    // Reset hand
+                    counter.ServerResetHand(orderRadius);
+                } else if (food.TryGetComponent<RecipeFramework>(out var framework)) {
 
                     // Update food item transform and parent
                     ServerUpdateTransform(food, counter);
 
                     // Evaluate order
-                    EvaluateRecipe(manager, foodBase, order);
+                    if (framework.undiscoveredRecipes[0] != null) {
+                        EvaluateFlavorProfile(framework.undiscoveredRecipes[0], manager, order, counter);
+                    } else {
+                        EvaluateFlavorProfile(null, manager, order, counter);
+                    }
 
                     // Reset hand
                     counter.ServerResetHand(orderRadius);
+                } else {
+                    Debug.LogError("Submitted food item is not a Recipe or Framework!");
                 }
             } 
-            // SUBMITTING A RECIPE FRAMEWORK
-            else if (food.TryGetComponent<RecipeFramework>(out var framework)) {
+            // If this is a critic order—
+            else {
 
-                // Add the recipe to unlocked recipes
-                foreach (var recipe in framework.undiscoveredRecipes) {
-                    OrderManager.DiscoveredRecipes.Add(recipe);
+                if (food.TryGetComponent<FoodBase>(out var foodBase)) {
+
+                    // Update food item transform and parent
+                    ServerUpdateTransform(food, counter);
+
+                    // Check for specific recipe
+                    EvaluateFlavorProfile(foodBase, manager, order, counter);
+
+                    // Reset hand
+                    counter.ServerResetHand(orderRadius);
+                } else if (food.TryGetComponent<RecipeFramework>(out var framework)) {
+
+                    // Add the recipe to unlocked recipes
+                    foreach (var recipe in framework.undiscoveredRecipes) {
+                        OrderManager.DiscoveredRecipes.Add(recipe);
+                    }
+
+                    // Update food item transform and parent
+                    ServerUpdateTransform(food, counter);
+
+                    // Evaluate order
+                    if (framework.undiscoveredRecipes[0] != null) {
+                        EvaluateFlavorProfile(framework.undiscoveredRecipes[0], manager, order, counter, framework);
+                    } else {
+                        Debug.LogWarning("No recipes to unlock in this framework!");
+                    }
+
+                    // Reset hand
+                    counter.ServerResetHand(orderRadius);
+
+                    // Unlock recipes from framework
+                    counter.ServerUnlockRecipe(orderRadius, counter);
+                } else {
+                    Debug.LogError("Submitted food item is not a Recipe or Framework!");
                 }
-
-                // Update food item transform and parent
-                ServerUpdateTransform(food, counter);
-
-                // Evaluate order
-                EvaluateFramework(framework, manager, order);
-
-                // Reset hand
-                counter.ServerResetHand(orderRadius);
-
-                // Unlock recipes from framework
-                counter.ServerUnlockRecipe(orderRadius, counter);
-            } else {
-                Debug.LogError("Submitted food item is not a Recipe or Framework!");
             }
         } else {
             Debug.LogError("Counter component could not be found on: " + orderRadius.selectedCounter.name + "!");
@@ -182,12 +217,12 @@ public class PlayerOrderRadius : NetworkBehaviour
     }
 
     [ObserversRpc]
-    public void EvaluateRecipe(OrderManager manager, FoodBase food, OrderBase order) {
+    public void EvaluateRecipe(OrderManager manager, FoodBase food, OrderBase order, Counter counter) {
 
         int score = 0;
 
         // Evaluate
-        if (order.specificRecipeOverride == food) {
+        if (order.specificRecipeOverride.foodId == food.foodId) {
 
             score++;
         }
@@ -202,15 +237,14 @@ public class PlayerOrderRadius : NetworkBehaviour
             scoreColor = Color.red;
         }
 
-        ServerRemoveOrder(manager, order, scoreColor);
+        ServerRemoveOrder(manager, order, scoreColor, counter);
     }
 
-    public void EvaluateFramework(RecipeFramework framework, OrderManager manager, OrderBase order) {
+    public void EvaluateFlavorProfile(FoodBase food, OrderManager manager, OrderBase order, Counter counter, RecipeFramework framework = default) {
 
         int score = 0;
 
-        // If there are valid recipes in the framework—
-        if (framework.undiscoveredRecipes.Count > 0) {
+        if (food != null) {
 
             // For every flavor and flavor amount requested—
             switch (order.items.Count) {
@@ -221,10 +255,8 @@ public class PlayerOrderRadius : NetworkBehaviour
                 case 1:
                     Debug.Log("1 coutn");
 
-                    FoodBase foundRecipe = framework.undiscoveredRecipes[0];
-
                     // Find if the recipe meets Flavor criteria
-                    FlavorProfile flavor = foundRecipe.flavorProfile.Find(x => x.flavor.orderText == order.items[0].flavor.orderText);
+                    FlavorProfile flavor = food.flavorProfile.Find(x => x.flavor.orderText == order.items[0].flavor.orderText);
 
                     if (flavor != null) {
 
@@ -248,11 +280,47 @@ public class PlayerOrderRadius : NetworkBehaviour
                 case 2:
                     Debug.Log("2 count");
 
-                    foreach (FoodBase recipe in framework.undiscoveredRecipes) {
+                    if (framework) {
+                        foreach (FoodBase recipe in framework.undiscoveredRecipes) {
+
+                            // Find if the recipe meets Flavor criteria
+                            FlavorProfile firstFlavor = recipe.flavorProfile.Find(x => x.flavor.orderText == order.items[0].flavor.orderText);
+                            FlavorProfile secondFlavor = recipe.flavorProfile.Find(x => x.flavor.orderText == order.items[1].flavor.orderText);
+
+                            // If it does, check for Amount criteria
+                            if (firstFlavor != null && secondFlavor != null) {
+                                
+                                // CORRECTLY FULFILLED (GREEN)
+                                if (firstFlavor.value >= order.items[0].flavorAmount.amountMinimum && firstFlavor.value <= order.items[0].flavorAmount.amountMaximum
+                                    && secondFlavor.value >= order.items[1].flavorAmount.amountMinimum && secondFlavor.value <= order.items[1].flavorAmount.amountMaximum) {
+
+                                    score = 3;
+                                    break;
+                                } 
+                                // MOSTLY CORRECT (YELLOW)
+                                else {
+
+                                    score = 2;
+                                    break;
+                                }
+                            }
+                            // NOT QUITE (ORANGE)
+                            else if (!(firstFlavor == null && secondFlavor == null)) {
+
+                                score = 1;
+                                break;
+                            } 
+                            // UTTER FAILURE (RED)
+                            else {
+                                score = 0;
+                                break;
+                            }
+                        }
+                    } else {
 
                         // Find if the recipe meets Flavor criteria
-                        FlavorProfile firstFlavor = recipe.flavorProfile.Find(x => x.flavor.orderText == order.items[0].flavor.orderText);
-                        FlavorProfile secondFlavor = recipe.flavorProfile.Find(x => x.flavor.orderText == order.items[1].flavor.orderText);
+                        FlavorProfile firstFlavor = food.flavorProfile.Find(x => x.flavor.orderText == order.items[0].flavor.orderText);
+                        FlavorProfile secondFlavor = food.flavorProfile.Find(x => x.flavor.orderText == order.items[1].flavor.orderText);
 
                         // If it does, check for Amount criteria
                         if (firstFlavor != null && secondFlavor != null) {
@@ -297,7 +365,7 @@ public class PlayerOrderRadius : NetworkBehaviour
                 break;
             case 1:
                 Debug.Log("Scored an ORANGE order!");
-                scoreColor = new(250f, 85f, 25f);
+                scoreColor = new(250, 85, 25);
                 break;
             case 2:
                 Debug.Log("Scored a YELLOW order!");
@@ -309,7 +377,7 @@ public class PlayerOrderRadius : NetworkBehaviour
                 break;
         }
 
-        ServerRemoveOrder(manager, order, scoreColor);
+        ServerRemoveOrder(manager, order, scoreColor, counter);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -329,37 +397,50 @@ public class PlayerOrderRadius : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerRemoveOrder(OrderManager manager, OrderBase order, Color color) {
-        RemoveOrder(manager, order, color);
+    public void ServerRemoveOrder(OrderManager manager, OrderBase order, Color color, Counter counter) {
+        RemoveOrder(manager, order, color, counter);
     }
 
     [ObserversRpc]
-    public void RemoveOrder(OrderManager manager, OrderBase order, Color color) {
-        StartCoroutine(StartRemoveOrder(manager, order, color));
-    }
-
-    public IEnumerator StartRemoveOrder(OrderManager manager, OrderBase order, Color color) {
+    public void RemoveOrder(OrderManager manager, OrderBase order, Color color, Counter counter) {
 
         Color prevColor = order.image.color;
 
         order.image.color = color;
 
+        StartCoroutine(StartRemoveOrder(manager, order, color, counter));
+    }
+
+    public IEnumerator StartRemoveOrder(OrderManager manager, OrderBase order, Color color, Counter counter) {
+
         yield return new WaitForSeconds(2f);
 
-        order.image.color = prevColor;
-
         // Remove order from active orders
-        manager.activeOrders.Remove(order);
+        if (manager.activeOrders.Contains(order)) {
+            manager.activeOrders.Remove(order);
+        }
 
-        if (base.IsHostInitialized) {
-            ServerRemoveOrder(manager, order);
+        if (IsHostInitialized && order) {
+            Debug.Log("host");
+
+            // Delete order object
+            ServerRemoveOrder(order, counter);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerRemoveOrder(OrderManager manager, OrderBase order) {
+    public void ServerRemoveOrder(OrderBase order, Counter counter) {
 
         // Delete order object
         InstanceFinder.ServerManager.Despawn(order.gameObject);
+
+        InstanceFinder.ServerManager.Despawn(counter.heldItem);
+
+        ClearCounter(counter);
+    }
+
+    [ObserversRpc]
+    public void ClearCounter(Counter counter) {
+        counter.heldItem = null;
     }
 }

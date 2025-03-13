@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using FishNet;
 using FishNet.Object;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -258,9 +259,14 @@ public class OrderManager : NetworkBehaviour
             order.itemText.text = order.items[0].flavorAmount.orderText + " " + order.items[0].flavor.orderText;
         }
 
-        if (orderManager.customerImages.Count > 0) {
+        /* if (orderManager.customerImages.Count > 0) {
             order.ordererImage.sprite = orderManager.customerImages[Random.Range(0, orderManager.customerImages.Count)];
-        }
+        } */
+        order.ordererImage.enabled = false; 
+        order.itemText.text = recipe.gameObject.name;
+
+        order.image.sprite = recipe.gameObject.GetComponent<Pickup>().normalSprite;
+        order.image.color = new(255, 255, 255);
 
         // Add spawned order to active orders listed
         if (!orderManager.activeOrders.Contains(order)) {

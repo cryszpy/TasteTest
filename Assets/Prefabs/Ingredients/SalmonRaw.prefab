@@ -293,6 +293,9 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1708774730879461347}
   _networkObjectCache: {fileID: 1708774730879461347}
   spawnObject: {fileID: 7967428870908867391}
+  transformedVersions:
+  - transformedIngredient: {fileID: 3940168280724478917, guid: b32b6a5969e774cf482e43abc55ac8b6, type: 3}
+    cookingStation: 2
   type: 0
   foodId: 13
   isRaw: 0
